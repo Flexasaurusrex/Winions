@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%);
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 0.6;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 60px;
+    background: rgba(128, 128, 128, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.hamburger span {
+    width: 20px;
+    height: 2px;
+    background: white;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 80px;
+    text-align: center;
+}
+
+/* Title Section */
+.title-section {
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 10;
+}
+
+.title-section h1 {
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* Canvas Container */
+.canvas-container {
+    position: relative;
+    width: 800px;
+    height: 500px;
+    margin: 40px 0;
+}
+
+canvas {
+    display: block;
+    cursor: grab;
+}
+
+canvas:active {
+    cursor: grabbing;
+}
+
+/* Enter Button */
+.enter-button {
+    margin-top: 60px;
+    padding: 18px 60px;
+    background: #555;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: background 0.3s;
+    display: inline-block;
+}
+
+.enter-button:hover {
+    background: #333;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .title-section h1 {
+        font-size: 48px;
+        letter-spacing: 10px;
+    }
+
+    .canvas-container {
+        width: 90vw;
+        height: 400px;
+    }
+}
