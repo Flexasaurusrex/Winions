@@ -20,7 +20,7 @@ class Particle {
         this.y = 0;
         this.radius = 3;
         this.trail = [];
-        this.maxTrail = 50; // Increased from 30 for more visible trails
+        this.maxTrail = 60; // Increased from 50 for longer, more visible trails
         this.speed = 0.002 + Math.random() * 0.001;
     }
 
@@ -32,21 +32,22 @@ class Particle {
         const point = this.getPointOnPath(path, this.progress);
         
         if (isInteracting) {
-            // Add intense mouse influence with greater range and force
+            // Add intense mouse influence with much greater range and force
             const dx = mouseX - point.x;
             const dy = mouseY - point.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const influenceRadius = 250; // Increased from 150
+            const influenceRadius = 450; // Increased from 250 for wider spread
             
             if (dist < influenceRadius) {
                 const forceFactor = (1 - dist / influenceRadius);
-                const force = forceFactor * forceFactor * 80; // Increased from 30, squared for more dramatic effect
+                const force = forceFactor * forceFactor * 120; // Increased from 80 for more dramatic effect
                 point.x += (dx / dist) * force;
                 point.y += (dy / dist) * force;
                 
-                // Add some randomness for wild effect
-                point.x += (Math.random() - 0.5) * force * 0.3;
-                point.y += (Math.random() - 0.5) * force * 0.3;
+                // Add more randomness for wilder effect
+                const chaos = force * 0.5; // Increased from 0.3
+                point.x += (Math.random() - 0.5) * chaos;
+                point.y += (Math.random() - 0.5) * chaos;
             }
         }
         
@@ -79,9 +80,9 @@ class Particle {
         // Draw trail with gradient opacity for better effect
         if (this.trail.length > 1) {
             for (let i = 1; i < this.trail.length; i++) {
-                const alpha = (i / this.trail.length) * 0.5;
+                const alpha = (i / this.trail.length) * 0.6; // Increased from 0.5 for more visible trails
                 ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 2.5; // Increased from 2 for thicker, more visible trails
                 ctx.beginPath();
                 ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
                 ctx.lineTo(this.trail[i].x, this.trail[i].y);
@@ -95,10 +96,10 @@ class Particle {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         
-        // Add subtle glow
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        // Add stronger glow for more visibility
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; // Increased from 0.3
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius + 2, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius + 3, 0, Math.PI * 2); // Increased from 2
         ctx.fill();
     }
 }
@@ -166,7 +167,7 @@ let figurePath = createFigurePath();
 
 // Create particles
 const particles = [];
-const numParticles = 12; // Increased from 8 for more dramatic effect
+const numParticles = 15; // Increased from 12 for more dramatic, fuller effect
 
 for (let i = 0; i < numParticles; i++) {
     particles.push(new Particle(i, numParticles));
