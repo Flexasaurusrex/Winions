@@ -80,7 +80,7 @@ class Particle {
         if (this.trail.length > 1) {
             for (let i = 1; i < this.trail.length; i++) {
                 const alpha = (i / this.trail.length) * 0.5;
-                ctx.strokeStyle = `rgba(100, 100, 100, ${alpha})`;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
@@ -90,13 +90,13 @@ class Particle {
         }
 
         // Draw particle with glow effect
-        ctx.fillStyle = '#333';
+        ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         
         // Add subtle glow
-        ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius + 2, 0, Math.PI * 2);
         ctx.fill();
