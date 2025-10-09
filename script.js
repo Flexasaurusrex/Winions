@@ -20,7 +20,7 @@ class Particle {
         this.y = 0;
         this.radius = 3;
         this.trail = [];
-        this.maxTrail = 30;
+        this.maxTrail = 50; // Increased from 30 for more visible trails
         this.speed = 0.002 + Math.random() * 0.001;
     }
 
@@ -32,14 +32,21 @@ class Particle {
         const point = this.getPointOnPath(path, this.progress);
         
         if (isInteracting) {
-            // Add mouse influence
+            // Add intense mouse influence with greater range and force
             const dx = mouseX - point.x;
             const dy = mouseY - point.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 150) {
-                const force = (1 - dist / 150) * 30;
+            const influenceRadius = 250; // Increased from 150
+            
+            if (dist < influenceRadius) {
+                const forceFactor = (1 - dist / influenceRadius);
+                const force = forceFactor * forceFactor * 80; // Increased from 30, squared for more dramatic effect
                 point.x += (dx / dist) * force;
                 point.y += (dy / dist) * force;
+                
+                // Add some randomness for wild effect
+                point.x += (Math.random() - 0.5) * force * 0.3;
+                point.y += (Math.random() - 0.5) * force * 0.3;
             }
         }
         
@@ -69,24 +76,29 @@ class Particle {
     }
 
     draw() {
-        // Draw trail
-        ctx.strokeStyle = 'rgba(100, 100, 100, 0.4)';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        for (let i = 0; i < this.trail.length; i++) {
-            const point = this.trail[i];
-            if (i === 0) {
-                ctx.moveTo(point.x, point.y);
-            } else {
-                ctx.lineTo(point.x, point.y);
+        // Draw trail with gradient opacity for better effect
+        if (this.trail.length > 1) {
+            for (let i = 1; i < this.trail.length; i++) {
+                const alpha = (i / this.trail.length) * 0.5;
+                ctx.strokeStyle = `rgba(100, 100, 100, ${alpha})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
+                ctx.lineTo(this.trail[i].x, this.trail[i].y);
+                ctx.stroke();
             }
         }
-        ctx.stroke();
 
-        // Draw particle
+        // Draw particle with glow effect
         ctx.fillStyle = '#333';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Add subtle glow
+        ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius + 2, 0, Math.PI * 2);
         ctx.fill();
     }
 }
@@ -154,7 +166,7 @@ let figurePath = createFigurePath();
 
 // Create particles
 const particles = [];
-const numParticles = 8;
+const numParticles = 12; // Increased from 8 for more dramatic effect
 
 for (let i = 0; i < numParticles; i++) {
     particles.push(new Particle(i, numParticles));
@@ -182,6 +194,57 @@ canvas.addEventListener('mouseup', () => {
 canvas.addEventListener('mouseleave', () => {
     isMouseDown = false;
 });
+
+// Touch interaction for mobile
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    mouseX = touch.clientX - rect.left;
+    mouseY = touch.clientY - rect.top;
+}, { passive: false });
+
+canvas.addEventListener('touchstart', (e) => {
+    isMouseDown = true;
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    mouseX = touch.clientX - rect.left;
+    mouseY = touch.clientY - rect.top;
+});
+
+canvas.addEventListener('touchend', () => {
+    isMouseDown = false;
+});
+
+// Hamburger menu functionality
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const closeMenu = document.getElementById('closeMenu');
+
+if (hamburger && mobileMenu && closeMenu) {
+    hamburger.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+    });
+
+    closeMenu.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+    });
+
+    // Close menu when clicking on a link
+    const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.remove('active');
+        }
+    });
+}
 
 // Handle window resize
 window.addEventListener('resize', () => {
