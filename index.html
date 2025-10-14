@@ -1,409 +1,305 @@
-// Canvas Setup
-const canvas = document.getElementById('artCanvas');
-const ctx = canvas.getContext('2d');
-const container = canvas.parentElement;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winions - A RascalX Art Collection</title>
+    <meta name="description" content="A minimal, clean website featuring an interactive geometric wireframe animation of a hooded figure.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://winions.xyz/">
+    <meta property="og:title" content="Winions - A RascalX Art Collection">
+    <meta property="og:description" content="A minimal, clean website featuring an interactive geometric wireframe animation of a hooded figure.">
+    <meta property="og:image" content="https://winions.xyz/social.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://winions.xyz/">
+    <meta property="twitter:title" content="Winions - A RascalX Art Collection">
+    <meta property="twitter:description" content="A minimal, clean website featuring an interactive geometric wireframe animation of a hooded figure.">
+    <meta property="twitter:image" content="https://winions.xyz/social.png">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-function resizeCanvas() {
-    canvas.width = container.offsetWidth;
-    canvas.height = container.offsetHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-close" id="closeMenu">&times;</div>
+        <ul class="mobile-nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#mint">Mint</a></li>
+            <li><a href="#rarity">Rarity</a></li>
+            <li><a href="#bounties">Bounties</a></li>
+            <li><a href="#team">Team</a></li>
+        </ul>
+    </div>
 
-// Physics-based animation
-class Particle {
-    constructor(pathIndex, totalParticles) {
-        this.pathIndex = pathIndex;
-        this.totalParticles = totalParticles;
-        this.progress = pathIndex / totalParticles;
-        this.x = 0;
-        this.y = 0;
-        this.radius = 3;
-        this.trail = [];
-        this.maxTrail = 60; // Increased from 50 for longer, more visible trails
-        this.speed = 0.002 + Math.random() * 0.001;
-    }
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">W</div>
+            <span>Winions</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#mint">Mint</a></li>
+            <li><a href="#rarity">Rarity</a></li>
+            <li><a href="#bounties">Bounties</a></li>
+            <li><a href="#team">Team</a></li>
+        </ul>
+    </nav>
 
-    update(path, isInteracting, mouseX, mouseY) {
-        // Move along the path
-        this.progress += this.speed;
-        if (this.progress >= 1) this.progress = 0;
-        
-        const point = this.getPointOnPath(path, this.progress);
-        
-        if (isInteracting) {
-            // Add intense mouse influence with much greater range and force
-            const dx = mouseX - point.x;
-            const dy = mouseY - point.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const influenceRadius = 450; // Increased from 250 for wider spread
+    <!-- Main Container -->
+    <div class="container">
+        <div class="title-section">
+            <h1>WINIONS</h1>
+            <p class="subtitle">A RascalX Art Collection</p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="artCanvas"></canvas>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="content-section">
+        <div class="section-content">
+            <h2>🌀 WINIONS</h2>
+            <p class="section-intro">A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.</p>
+        </div>
+    </section>
+
+    <!-- Mint Section -->
+    <section id="mint" class="content-section">
+        <div class="section-content">
+            <h2>💾 MINT DETAILS</h2>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Artist</span>
+                    <span class="detail-value">@rvscvnx</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Blockchain</span>
+                    <span class="detail-value">Ethereum</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Supply</span>
+                    <span class="detail-value">666</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Reveal</span>
+                    <span class="detail-value">Instant reveal after mint</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Royalties</span>
+                    <span class="detail-value">6.66%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mint Date</span>
+                    <span class="detail-value">Week of October 16, 2025</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Contract</span>
+                    <span class="detail-value">ERC-721 on Transient Labs</span>
+                </div>
+            </div>
+
+            <h3>🗓️ PHASES</h3>
+            <div class="phases">
+                <div class="phase-card">
+                    <h4>Phase 1 — FRENZY</h4>
+                    <p>Free for the first 69 wallets. One per wallet.</p>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 2 — FREE FOR ALL</h4>
+                    <p>Free 300 supply to AL. Two per wallet max.</p>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 3 — FOMO</h4>
+                    <p>The final 297 at 0.0333Ξ. Open to the public. 10 per wallet max.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rarity Section -->
+    <section id="rarity" class="content-section">
+        <div class="section-content">
+            <h2>🧩 RARITY STRUCTURE</h2>
+            <p class="section-intro">There are 13 Houses within the 666 Winions. Each House represents a distinct tone — from quiet forms to full digital chaos. Most Winions belong to the Common Houses, while others emerge from rarer realms.</p>
             
-            if (dist < influenceRadius) {
-                const forceFactor = (1 - dist / influenceRadius);
-                const force = forceFactor * forceFactor * 120; // Increased from 80 for more dramatic effect
-                point.x += (dx / dist) * force;
-                point.y += (dy / dist) * force;
-                
-                // Add more randomness for wilder effect
-                const chaos = force * 0.5; // Increased from 0.3
-                point.x += (Math.random() - 0.5) * chaos;
-                point.y += (Math.random() - 0.5) * chaos;
-            }
-        }
-        
-        this.x = point.x;
-        this.y = point.y;
-        
-        this.trail.push({x: this.x, y: this.y});
-        if (this.trail.length > this.maxTrail) {
-            this.trail.shift();
-        }
-    }
+            <div class="carousel-container">
+                <button class="carousel-btn prev" id="prevBtn">‹</button>
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Common Houses -->
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="havoc.gif" alt="House of Havoc" class="house-image">
+                            </div>
+                            <h4>House of Havoc</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">33%</p>
+                        </div>
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="misfit.gif" alt="House of Misfits" class="house-image">
+                            </div>
+                            <h4>House of Misfits</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">16.7%</p>
+                        </div>
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="frog.gif" alt="House of Frog" class="house-image">
+                            </div>
+                            <h4>House of Frog</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">11.6%</p>
+                        </div>
+                        
+                        <!-- Uncommon Houses -->
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="theory.gif" alt="House of Theory" class="house-image">
+                            </div>
+                            <h4>House of Theory</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">8.3%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="clay.gif" alt="House of Clay" class="house-image">
+                            </div>
+                            <h4>House of Clay</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">6.6%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="stencil.gif" alt="House of Stencil" class="house-image">
+                            </div>
+                            <h4>House of Stencil</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">5%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="spectrum.gif" alt="House of Spectrum" class="house-image">
+                            </div>
+                            <h4>House of Spectrum</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">5%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="royal.gif" alt="House of Royal" class="house-image">
+                            </div>
+                            <h4>House of Royal</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="shadow.gif" alt="House of Shadows" class="house-image">
+                            </div>
+                            <h4>House of Shadows</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        
+                        <!-- Rare Houses -->
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="hellish.gif" alt="House of Hellish" class="house-image">
+                            </div>
+                            <h4>House of Hellish</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="hologram.gif" alt="House of Hologram" class="house-image">
+                            </div>
+                            <h4>House of Hologram</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">1.7%</p>
+                        </div>
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="gold.gif" alt="House of Gold" class="house-image">
+                            </div>
+                            <h4>House of Gold</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">1.7%</p>
+                        </div>
+                        
+                        <!-- Mythic House -->
+                        <div class="house-card mythic">
+                            <div class="house-image-placeholder">
+                                <img src="unknow.gif" alt="House of the Unknown" class="house-image">
+                            </div>
+                            <h4>House of the Unknown</h4>
+                            <p class="rarity-badge mythic-badge">MYTHIC</p>
+                            <p class="rarity-percent">0.5%</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn next" id="nextBtn">›</button>
+            </div>
 
-    getPointOnPath(path, progress) {
-        const totalPoints = path.length;
-        const index = progress * totalPoints;
-        const currentIndex = Math.floor(index);
-        const nextIndex = (currentIndex + 1) % totalPoints;
-        const t = index - currentIndex;
-        
-        const current = path[currentIndex];
-        const next = path[nextIndex];
-        
-        return {
-            x: current.x + (next.x - current.x) * t,
-            y: current.y + (next.y - current.y) * t
-        };
-    }
+            <div class="generals-info">
+                <h3>⚔️ WHAT ARE GENERALS?</h3>
+                <p>Each House (minus the house of the Unknown) is led by a single General Winion (1/1) — a legendary unique piece. Generals are not part of the mint, they can only be earned through the Winions Bounty System.</p>
+            </div>
+        </div>
+    </section>
 
-    draw() {
-        // Draw trail with gradient opacity for better effect
-        if (this.trail.length > 1) {
-            for (let i = 1; i < this.trail.length; i++) {
-                const alpha = (i / this.trail.length) * 0.6; // Increased from 0.5 for more visible trails
-                ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-                ctx.lineWidth = 2.5; // Increased from 2 for thicker, more visible trails
-                ctx.beginPath();
-                ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
-                ctx.lineTo(this.trail[i].x, this.trail[i].y);
-                ctx.stroke();
-            }
-        }
+    <!-- Bounties Section -->
+    <section id="bounties" class="content-section">
+        <div class="section-content">
+            <h2>🎯 BOUNTIES</h2>
+            <p class="section-intro">Bounties are a post-mint checklist designed to reward collectors who play and dive deeper into the collection. Think of it as Bingo, assemble specific sets, yet to be revealed, to claim rewards.</p>
+            
+            <div class="bounty-example">
+                <h4>Example:</h4>
+                <p>First to collect three from the House of Gold.</p>
+                <p>When a bounty is achieved, collectors can submit a claim. The first verified claim wins that House's General (1/1). Each General will be airdropped to the rightful winner.</p>
+            </div>
 
-        // Draw particle with glow effect
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Add stronger glow for more visibility
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; // Increased from 0.3
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius + 3, 0, Math.PI * 2); // Increased from 2
-        ctx.fill();
-    }
-}
+            <h3>🧠 WHY THE BOUNTY SYSTEM?</h3>
+            <p>Winions like to travel in packs. It's a fair, playful system where effort and curiosity replace pure luck.</p>
 
-// Create hooded figure outline path
-function createFigurePath() {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const scale = Math.min(canvas.width, canvas.height) * 0.35;
-    
-    const path = [];
-    
-    // Top of hood (rounded)
-    for (let i = 0; i <= 20; i++) {
-        const angle = Math.PI + (i / 20) * Math.PI;
-        const x = centerX + Math.cos(angle) * scale * 0.35;
-        const y = centerY - scale * 0.7 + Math.sin(angle) * scale * 0.2;
-        path.push({x, y});
-    }
-    
-    // Right side of hood/shoulder
-    for (let i = 0; i <= 15; i++) {
-        const t = i / 15;
-        const x = centerX + scale * 0.35 + t * scale * 0.25;
-        const y = centerY - scale * 0.5 + t * scale * 0.4;
-        path.push({x, y});
-    }
-    
-    // Right side of cloak (widens)
-    for (let i = 0; i <= 25; i++) {
-        const t = i / 25;
-        const x = centerX + scale * 0.6 + t * scale * 0.15;
-        const y = centerY - scale * 0.1 + t * scale * 0.9;
-        path.push({x, y});
-    }
-    
-    // Bottom of cloak
-    for (let i = 0; i <= 20; i++) {
-        const t = i / 20;
-        const x = centerX + scale * 0.75 - t * scale * 1.5;
-        const y = centerY + scale * 0.8;
-        path.push({x, y});
-    }
-    
-    // Left side of cloak
-    for (let i = 0; i <= 25; i++) {
-        const t = i / 25;
-        const x = centerX - scale * 0.75 + t * scale * 0.15;
-        const y = centerY + scale * 0.8 - t * scale * 0.9;
-        path.push({x, y});
-    }
-    
-    // Left side of hood/shoulder
-    for (let i = 0; i <= 15; i++) {
-        const t = i / 15;
-        const x = centerX - scale * 0.6 + t * scale * 0.25;
-        const y = centerY - scale * 0.1 - t * scale * 0.4;
-        path.push({x, y});
-    }
-    
-    return path;
-}
+            <h3>📦 LICENSING & RIGHTS</h3>
+            <p>Winions come with full personal and commercial rights for holders. You may use your Winion for merch, media, or creative projects. Each piece is stored on-chain with permanent metadata.</p>
+        </div>
+    </section>
 
-let figurePath = createFigurePath();
+    <!-- Team Section -->
+    <section id="team" class="content-section">
+        <div class="section-content">
+            <h2>📜 THE TEAM</h2>
+            <p><strong>Artist:</strong> @rvscvnx</p>
+            <p><strong>Produced and assistance from:</strong> Who ever want to be included.</p>
 
-// Create particles
-const particles = [];
-const numParticles = 15; // Increased from 12 for more dramatic, fuller effect
+            <h3 style="margin-top: 60px;">🔗 OFFICIAL LINKS</h3>
+            <div class="links-grid">
+                <a href="https://winions.xyz" target="_blank" class="link-item">Website: winions.xyz</a>
+                <a href="https://twitter.com/Winions_nft" target="_blank" class="link-item">Twitter: @Winions_nft</a>
+                <a href="https://twitter.com/rvscvnx" target="_blank" class="link-item">Artist: @rvscvnx</a>
+                <p class="link-item">Contract: To be announced</p>
+            </div>
+        </div>
+    </section>
 
-for (let i = 0; i < numParticles; i++) {
-    particles.push(new Particle(i, numParticles));
-}
-
-// Mouse interaction
-let mouseX = canvas.width / 2;
-let mouseY = canvas.height / 2;
-let isMouseDown = false;
-
-canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-});
-
-canvas.addEventListener('mousedown', () => {
-    isMouseDown = true;
-});
-
-canvas.addEventListener('mouseup', () => {
-    isMouseDown = false;
-});
-
-canvas.addEventListener('mouseleave', () => {
-    isMouseDown = false;
-});
-
-// Touch interaction for mobile
-canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    mouseX = touch.clientX - rect.left;
-    mouseY = touch.clientY - rect.top;
-}, { passive: false });
-
-canvas.addEventListener('touchstart', (e) => {
-    isMouseDown = true;
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    mouseX = touch.clientX - rect.left;
-    mouseY = touch.clientY - rect.top;
-});
-
-canvas.addEventListener('touchend', () => {
-    isMouseDown = false;
-});
-
-// Hamburger menu functionality
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-const closeMenu = document.getElementById('closeMenu');
-
-if (hamburger && mobileMenu && closeMenu) {
-    hamburger.addEventListener('click', () => {
-        mobileMenu.classList.add('active');
-    });
-
-    closeMenu.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-    });
-
-    // Close menu when clicking on a link
-    const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-    });
-
-    // Close menu when clicking outside
-    mobileMenu.addEventListener('click', (e) => {
-        if (e.target === mobileMenu) {
-            mobileMenu.classList.remove('active');
-        }
-    });
-}
-
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Carousel functionality
-const track = document.getElementById('carouselTrack');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-
-if (track && prevBtn && nextBtn) {
-    let currentIndex = 0;
-    const cards = track.querySelectorAll('.house-card');
-    
-    function getCardWidth() {
-        if (window.innerWidth <= 768) {
-            // Mobile: 70vw card + 20px gap
-            return window.innerWidth * 0.7 + 20;
-        } else {
-            // Desktop: 300px card + 30px gap
-            return 330;
-        }
-    }
-    
-    function getVisibleCards() {
-        if (window.innerWidth > 1200) return 3;
-        if (window.innerWidth > 768) return 2;
-        return 1;
-    }
-    
-    function getMaxIndex() {
-        return Math.max(0, cards.length - getVisibleCards());
-    }
-
-    function updateCarousel() {
-        const cardWidth = getCardWidth();
-        const offset = -currentIndex * cardWidth;
-        track.style.transform = `translateX(${offset}px)`;
-        
-        const maxIndex = getMaxIndex();
-        
-        // Disable buttons at extremes
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= maxIndex;
-        prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
-        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
-    }
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        const maxIndex = getMaxIndex();
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
-
-    // Initial update
-    updateCarousel();
-    
-    // Handle window resize for carousel
-    let carouselResizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(carouselResizeTimer);
-        carouselResizeTimer = setTimeout(() => {
-            currentIndex = 0;
-            updateCarousel();
-        }, 250);
-    });
-}
-
-// Handle window resize for canvas
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    figurePath = createFigurePath();
-});
-
-// Animation loop
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw particles
-    particles.forEach(particle => {
-        particle.update(figurePath, isMouseDown, mouseX, mouseY);
-        particle.draw();
-    });
-    
-    // Draw glowing eyes
-    drawEyes();
-    
-    requestAnimationFrame(animate);
-}
-
-// Draw flickering ghostly eyes
-let eyeFlickerTime = 0;
-function drawEyes() {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const scale = Math.min(canvas.width, canvas.height) * 0.35;
-    
-    // Eye positions (near top of hood)
-    const eyeY = centerY - scale * 0.5;
-    const eyeSpacing = scale * 0.15;
-    const leftEyeX = centerX - eyeSpacing;
-    const rightEyeX = centerX + eyeSpacing;
-    
-    // Flicker animation
-    eyeFlickerTime += 0.05;
-    const flicker1 = 0.7 + Math.sin(eyeFlickerTime * 3) * 0.15 + Math.random() * 0.15;
-    const flicker2 = 0.7 + Math.sin(eyeFlickerTime * 2.7 + 1) * 0.15 + Math.random() * 0.15;
-    
-    // Draw left eye
-    drawEye(leftEyeX, eyeY, flicker1);
-    
-    // Draw right eye
-    drawEye(rightEyeX, eyeY, flicker2);
-}
-
-function drawEye(x, y, intensity) {
-    // Outer glow (largest)
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.1})`;
-    ctx.beginPath();
-    ctx.arc(x, y, 12, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Middle glow
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.3})`;
-    ctx.beginPath();
-    ctx.arc(x, y, 8, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Inner glow
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.6})`;
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Core (brightest)
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity})`;
-    ctx.beginPath();
-    ctx.arc(x, y, 3, 0, Math.PI * 2);
-    ctx.fill();
-}
-
-animate();
+    <script src="script.js"></script>
+</body>
+</html>
