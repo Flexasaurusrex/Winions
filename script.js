@@ -269,13 +269,33 @@ const nextBtn = document.getElementById('nextBtn');
 if (track && prevBtn && nextBtn) {
     let currentIndex = 0;
     const cards = track.querySelectorAll('.house-card');
-    const cardWidth = 330; // 300px width + 30px gap
-    const visibleCards = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
-    const maxIndex = cards.length - visibleCards;
+    
+    function getCardWidth() {
+        if (window.innerWidth <= 768) {
+            // Mobile: 70vw card + 20px gap
+            return window.innerWidth * 0.7 + 20;
+        } else {
+            // Desktop: 300px card + 30px gap
+            return 330;
+        }
+    }
+    
+    function getVisibleCards() {
+        if (window.innerWidth > 1200) return 3;
+        if (window.innerWidth > 768) return 2;
+        return 1;
+    }
+    
+    function getMaxIndex() {
+        return Math.max(0, cards.length - getVisibleCards());
+    }
 
     function updateCarousel() {
+        const cardWidth = getCardWidth();
         const offset = -currentIndex * cardWidth;
         track.style.transform = `translateX(${offset}px)`;
+        
+        const maxIndex = getMaxIndex();
         
         // Disable buttons at extremes
         prevBtn.disabled = currentIndex === 0;
@@ -292,6 +312,7 @@ if (track && prevBtn && nextBtn) {
     });
 
     nextBtn.addEventListener('click', () => {
+        const maxIndex = getMaxIndex();
         if (currentIndex < maxIndex) {
             currentIndex++;
             updateCarousel();
