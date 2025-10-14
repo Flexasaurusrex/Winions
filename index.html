@@ -34,10 +34,11 @@
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-close" id="closeMenu">&times;</div>
         <ul class="mobile-nav-links">
-            <li><a href="#mint">Mint</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#algorithm">The Algorithm</a></li>
-            <li><a href="#connect">Connect</a></li>
+            <li><a href="#mint">Mint</a></li>
+            <li><a href="#rarity">Rarity</a></li>
+            <li><a href="#bounties">Bounties</a></li>
+            <li><a href="#team">Team</a></li>
         </ul>
     </div>
 
@@ -48,10 +49,11 @@
             <span>Winions</span>
         </div>
         <ul class="nav-links">
-            <li><a href="#mint">Mint</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#algorithm">The Algorithm</a></li>
-            <li><a href="#connect">Connect</a></li>
+            <li><a href="#mint">Mint</a></li>
+            <li><a href="#rarity">Rarity</a></li>
+            <li><a href="#bounties">Bounties</a></li>
+            <li><a href="#team">Team</a></li>
         </ul>
     </nav>
 
@@ -66,6 +68,237 @@
             <canvas id="artCanvas"></canvas>
         </div>
     </div>
+
+    <!-- About Section -->
+    <section id="about" class="content-section">
+        <div class="section-content">
+            <h2>🌀 WINIONS</h2>
+            <p class="section-intro">A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.</p>
+        </div>
+    </section>
+
+    <!-- Mint Section -->
+    <section id="mint" class="content-section">
+        <div class="section-content">
+            <h2>💾 MINT DETAILS</h2>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Artist</span>
+                    <span class="detail-value">@rvscvnx</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Blockchain</span>
+                    <span class="detail-value">Ethereum</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Supply</span>
+                    <span class="detail-value">666</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Reveal</span>
+                    <span class="detail-value">Instant reveal after mint</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Royalties</span>
+                    <span class="detail-value">6.66%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mint Date</span>
+                    <span class="detail-value">Week of October 16, 2025</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Contract</span>
+                    <span class="detail-value">ERC-721 on Transient Labs</span>
+                </div>
+            </div>
+
+            <h3>🗓️ PHASES</h3>
+            <div class="phases">
+                <div class="phase-card">
+                    <h4>Phase 1 — FRENZY</h4>
+                    <p>Free for the first 69 wallets. One per wallet.</p>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 2 — FREE FOR ALL</h4>
+                    <p>Free 300 supply to AL. Two per wallet max.</p>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 3 — FOMO</h4>
+                    <p>The final 297 at 0.0333Ξ. Open to the public. 10 per wallet max.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rarity Section -->
+    <section id="rarity" class="content-section">
+        <div class="section-content">
+            <h2>🧩 RARITY STRUCTURE</h2>
+            <p class="section-intro">There are 13 Houses within the 666 Winions. Each House represents a distinct tone — from quiet forms to full digital chaos. Most Winions belong to the Common Houses, while others emerge from rarer realms.</p>
+            
+            <div class="carousel-container">
+                <button class="carousel-btn prev" id="prevBtn">‹</button>
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Common Houses -->
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="house-havoc.gif" alt="House of Havoc" class="house-image">
+                            </div>
+                            <h4>House of Havoc</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">33%</p>
+                        </div>
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="house-misfits.gif" alt="House of Misfits" class="house-image">
+                            </div>
+                            <h4>House of Misfits</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">16.7%</p>
+                        </div>
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="house-frog.gif" alt="House of Frog" class="house-image">
+                            </div>
+                            <h4>House of Frog</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">11.6%</p>
+                        </div>
+                        
+                        <!-- Uncommon Houses -->
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="house-theory.gif" alt="House of Theory" class="house-image">
+                            </div>
+                            <h4>House of Theory</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">8.3%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="house-clay.gif" alt="House of Clay" class="house-image">
+                            </div>
+                            <h4>House of Clay</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">6.6%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="house-stencil.gif" alt="House of Stencil" class="house-image">
+                            </div>
+                            <h4>House of Stencil</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">5%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="house-spectrum.gif" alt="House of Spectrum" class="house-image">
+                            </div>
+                            <h4>House of Spectrum</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">5%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="house-royal.gif" alt="House of Royal" class="house-image">
+                            </div>
+                            <h4>House of Royal</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="house-shadows.gif" alt="House of Shadows" class="house-image">
+                            </div>
+                            <h4>House of Shadows</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        
+                        <!-- Rare Houses -->
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="house-hellish.gif" alt="House of Hellish" class="house-image">
+                            </div>
+                            <h4>House of Hellish</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="house-hologram.gif" alt="House of Hologram" class="house-image">
+                            </div>
+                            <h4>House of Hologram</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">1.7%</p>
+                        </div>
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="house-gold.gif" alt="House of Gold" class="house-image">
+                            </div>
+                            <h4>House of Gold</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">1.7%</p>
+                        </div>
+                        
+                        <!-- Mythic House -->
+                        <div class="house-card mythic">
+                            <div class="house-image-placeholder">
+                                <img src="house-death.gif" alt="House of the Death" class="house-image">
+                            </div>
+                            <h4>House of the Death</h4>
+                            <p class="rarity-badge mythic-badge">MYTHIC</p>
+                            <p class="rarity-percent">0.5%</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn next" id="nextBtn">›</button>
+            </div>
+
+            <div class="generals-info">
+                <h3>⚔️ WHAT ARE GENERALS?</h3>
+                <p>Each House (minus the house of the Unknown) is led by a single General Winion (1/1) — a legendary unique piece. Generals are not part of the mint, they can only be earned through the Winions Bounty System.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bounties Section -->
+    <section id="bounties" class="content-section">
+        <div class="section-content">
+            <h2>🎯 BOUNTIES</h2>
+            <p class="section-intro">Bounties are a post-mint checklist designed to reward collectors who play and dive deeper into the collection. Think of it as Bingo, assemble specific sets, yet to be revealed, to claim rewards.</p>
+            
+            <div class="bounty-example">
+                <h4>Example:</h4>
+                <p>First to collect three from the House of Gold.</p>
+                <p>When a bounty is achieved, collectors can submit a claim. The first verified claim wins that House's General (1/1). Each General will be airdropped to the rightful winner.</p>
+            </div>
+
+            <h3>🧠 WHY THE BOUNTY SYSTEM?</h3>
+            <p>Winions like to travel in packs. It's a fair, playful system where effort and curiosity replace pure luck.</p>
+
+            <h3>📦 LICENSING & RIGHTS</h3>
+            <p>Winions come with full personal and commercial rights for holders. You may use your Winion for merch, media, or creative projects. Each piece is stored on-chain with permanent metadata.</p>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="content-section">
+        <div class="section-content">
+            <h2>📜 THE TEAM</h2>
+            <p><strong>Artist:</strong> @rvscvnx</p>
+            <p><strong>Produced and assistance from:</strong> Who ever want to be included.</p>
+
+            <h3 style="margin-top: 60px;">🔗 OFFICIAL LINKS</h3>
+            <div class="links-grid">
+                <a href="https://winions.xyz" target="_blank" class="link-item">Website: winions.xyz</a>
+                <a href="https://twitter.com/Winions_nft" target="_blank" class="link-item">Twitter: @Winions_nft</a>
+                <a href="https://twitter.com/rvscvnx" target="_blank" class="link-item">Artist: @rvscvnx</a>
+                <p class="link-item">Contract: To be announced</p>
+            </div>
+        </div>
+    </section>
 
     <script src="script.js"></script>
 </body>
