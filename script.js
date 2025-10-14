@@ -322,12 +322,67 @@ window.addEventListener('resize', () => {
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    // Draw particles
     particles.forEach(particle => {
         particle.update(figurePath, isMouseDown, mouseX, mouseY);
         particle.draw();
     });
     
+    // Draw glowing eyes
+    drawEyes();
+    
     requestAnimationFrame(animate);
+}
+
+// Draw flickering ghostly eyes
+let eyeFlickerTime = 0;
+function drawEyes() {
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const scale = Math.min(canvas.width, canvas.height) * 0.35;
+    
+    // Eye positions (near top of hood)
+    const eyeY = centerY - scale * 0.5;
+    const eyeSpacing = scale * 0.15;
+    const leftEyeX = centerX - eyeSpacing;
+    const rightEyeX = centerX + eyeSpacing;
+    
+    // Flicker animation
+    eyeFlickerTime += 0.05;
+    const flicker1 = 0.7 + Math.sin(eyeFlickerTime * 3) * 0.15 + Math.random() * 0.15;
+    const flicker2 = 0.7 + Math.sin(eyeFlickerTime * 2.7 + 1) * 0.15 + Math.random() * 0.15;
+    
+    // Draw left eye
+    drawEye(leftEyeX, eyeY, flicker1);
+    
+    // Draw right eye
+    drawEye(rightEyeX, eyeY, flicker2);
+}
+
+function drawEye(x, y, intensity) {
+    // Outer glow (largest)
+    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.1})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 12, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Middle glow
+    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Inner glow
+    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.6})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Core (brightest)
+    ctx.fillStyle = `rgba(255, 255, 255, ${intensity})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
 }
 
 animate();
