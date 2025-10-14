@@ -264,25 +264,26 @@ canvas:active {
 
 /* Footer */
 .site-footer {
-    padding: 30px 20px;
+    padding: 40px 20px;
     text-align: center;
     border-top: 1px solid #333;
     background: rgba(20, 20, 20, 0.5);
 }
 
 .site-footer p {
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 1px;
     color: #00cc00;
     margin: 0;
-    line-height: 1.5;
 }
 
 .footer-link {
     color: #00ff00;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     transition: opacity 0.3s;
-    white-space: nowrap;
 }
 
 .footer-link:hover {
@@ -290,24 +291,13 @@ canvas:active {
 }
 
 .footer-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     vertical-align: middle;
-    display: inline-block;
-    margin: 0 4px;
 }
 
 @media (max-width: 768px) {
-    .site-footer p {
-        font-size: 12px;
-    }
-    
-    .footer-icon {
-        width: 18px;
-        height: 18px;
-    }
-}
     .hamburger {
         display: flex;
     }
@@ -365,13 +355,11 @@ canvas:active {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
 }
 
 .section-content {
     max-width: 1200px;
     width: 100%;
-    text-align: center;
 }
 
 .content-section h2 {
@@ -380,7 +368,6 @@ canvas:active {
     letter-spacing: 8px;
     margin-bottom: 30px;
     text-transform: uppercase;
-    text-align: center;
 }
 
 .content-section h3 {
@@ -389,7 +376,6 @@ canvas:active {
     letter-spacing: 4px;
     margin: 40px 0 20px;
     text-transform: uppercase;
-    text-align: center;
 }
 
 .content-section h4 {
@@ -397,7 +383,6 @@ canvas:active {
     font-weight: 400;
     letter-spacing: 2px;
     margin-bottom: 15px;
-    text-align: center;
 }
 
 .section-intro {
@@ -405,13 +390,11 @@ canvas:active {
     line-height: 1.8;
     margin-bottom: 40px;
     color: #00cc00;
-    text-align: center;
 }
 
 .content-section p {
     line-height: 1.8;
     margin-bottom: 20px;
-    text-align: center;
 }
 
 /* Mint Details Grid */
