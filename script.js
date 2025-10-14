@@ -265,8 +265,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const track = document.getElementById('carouselTrack');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const carouselWrapper = track ? track.parentElement : null;
 
-if (track && prevBtn && nextBtn) {
+if (track && prevBtn && nextBtn && carouselWrapper) {
     let currentIndex = 0;
     const cards = track.querySelectorAll('.house-card');
     
@@ -274,50 +275,21 @@ if (track && prevBtn && nextBtn) {
         return window.innerWidth <= 768;
     }
     
-    function getCardWidth() {
-        const card = cards[0];
-        if (!card) return 300;
-        const styles = window.getComputedStyle(card);
-        const width = card.offsetWidth;
-        const marginRight = parseFloat(styles.marginRight) || 0;
-        return width + marginRight;
-    }
-    
-    function getVisibleCards() {
-        if (window.innerWidth > 1200) return 3;
-        if (window.innerWidth > 768) return 2;
-        return 1;
-    }
-    
-    function getMaxIndex() {
-        return Math.max(0, cards.length - 1);
-    }
-
     function updateCarousel() {
-        let offset = 0;
-        
         if (isMobile()) {
-            // On mobile, center each card in the viewport
-            const card = cards[currentIndex];
-            if (card) {
-                const viewportWidth = window.innerWidth;
-                const cardWidth = card.offsetWidth;
-                const cardLeft = card.offsetLeft;
-                
-                // Calculate offset to center the current card
-                offset = -(cardLeft - (viewportWidth / 2) + (cardWidth / 2));
-            }
-        } else {
-            // On desktop, use standard grid scrolling
-            const cardWidth = getCardWidth();
-            offset = -currentIndex * cardWidth;
+            // On mobile, use native scrolling - don't apply transform
+            track.style.transform = 'none';
+            return;
         }
         
+        // Desktop: use button navigation
+        const cardWidth = 330; // 300px + 30px gap
+        const offset = -currentIndex * cardWidth;
         track.style.transform = `translateX(${offset}px)`;
         
-        const maxIndex = getMaxIndex();
+        const visibleCards = window.innerWidth > 1200 ? 3 : 2;
+        const maxIndex = Math.max(0, cards.length - visibleCards);
         
-        // Disable buttons at extremes
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex >= maxIndex;
         prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
@@ -325,28 +297,32 @@ if (track && prevBtn && nextBtn) {
     }
 
     prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
+        if (!isMobile() && currentIndex > 0) {
             currentIndex--;
             updateCarousel();
         }
     });
 
     nextBtn.addEventListener('click', () => {
-        const maxIndex = getMaxIndex();
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            updateCarousel();
+        if (!isMobile()) {
+            const visibleCards = window.innerWidth > 1200 ? 3 : 2;
+            const maxIndex = Math.max(0, cards.length - visibleCards);
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateCarousel();
+            }
         }
     });
 
     // Initial update
-    setTimeout(updateCarousel, 100); // Small delay to ensure cards are rendered
+    updateCarousel();
     
-    // Handle window resize for carousel
-    let carouselResizeTimer;
+    // Handle window resize
+    let resizeTimer;
     window.addEventListener('resize', () => {
-        clearTimeout(carouselResizeTimer);
-        carouselResizeTimer = setTimeout(() => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            currentIndex = 0;
             updateCarousel();
         }, 250);
     });
