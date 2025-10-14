@@ -264,26 +264,25 @@ canvas:active {
 
 /* Footer */
 .site-footer {
-    padding: 40px 20px;
+    padding: 30px 20px;
     text-align: center;
     border-top: 1px solid #333;
     background: rgba(20, 20, 20, 0.5);
 }
 
 .site-footer p {
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: 1px;
     color: #00cc00;
     margin: 0;
+    line-height: 1.5;
 }
 
 .footer-link {
     color: #00ff00;
     text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
     transition: opacity 0.3s;
+    white-space: nowrap;
 }
 
 .footer-link:hover {
@@ -291,13 +290,24 @@ canvas:active {
 }
 
 .footer-icon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     vertical-align: middle;
+    display: inline-block;
+    margin: 0 4px;
 }
 
 @media (max-width: 768px) {
+    .site-footer p {
+        font-size: 12px;
+    }
+    
+    .footer-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
     .hamburger {
         display: flex;
     }
