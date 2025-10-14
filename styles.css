@@ -594,63 +594,62 @@ canvas:active {
     }
 
     .carousel-container {
-        padding: 0 50px;
+        padding: 0;
         margin: 40px 0;
-        overflow: visible;
     }
 
     .carousel-wrapper {
-        overflow: hidden;
-        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .carousel-wrapper::-webkit-scrollbar {
+        display: none;
     }
 
     .carousel-track {
-        gap: 20px;
-        padding: 0 10px;
+        gap: 15px;
+        padding: 10px 20px;
+        transition: none;
     }
 
     .house-card {
-        min-width: 85vw;
-        max-width: 85vw;
+        min-width: 28vw;
+        max-width: 28vw;
         flex-shrink: 0;
-        padding: 25px;
+        padding: 12px;
     }
 
     .house-image-placeholder {
         width: 100%;
         height: auto;
         aspect-ratio: 1;
-        max-width: 100%;
-        margin: 0 auto 20px;
+        margin: 0 auto 10px;
     }
 
     .house-card h4 {
-        font-size: 20px;
-        margin-bottom: 12px;
+        font-size: 13px;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
     }
 
     .rarity-badge {
-        padding: 8px 14px;
-        font-size: 11px;
-        margin-bottom: 10px;
+        padding: 4px 8px;
+        font-size: 8px;
+        margin-bottom: 6px;
+        letter-spacing: 1px;
     }
 
     .rarity-percent {
-        font-size: 28px;
+        font-size: 18px;
+        letter-spacing: 1px;
     }
 
     .carousel-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 36px;
-    }
-
-    .carousel-btn.prev {
-        left: 0;
-    }
-
-    .carousel-btn.next {
-        right: 0;
+        display: none;
     }
 }
 
