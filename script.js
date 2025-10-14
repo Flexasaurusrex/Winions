@@ -247,7 +247,72 @@ if (hamburger && mobileMenu && closeMenu) {
     });
 }
 
-// Handle window resize
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Carousel functionality
+const track = document.getElementById('carouselTrack');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+if (track && prevBtn && nextBtn) {
+    let currentIndex = 0;
+    const cards = track.querySelectorAll('.house-card');
+    const cardWidth = 330; // 300px width + 30px gap
+    const visibleCards = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
+    const maxIndex = cards.length - visibleCards;
+
+    function updateCarousel() {
+        const offset = -currentIndex * cardWidth;
+        track.style.transform = `translateX(${offset}px)`;
+        
+        // Disable buttons at extremes
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+        prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    // Initial update
+    updateCarousel();
+    
+    // Handle window resize for carousel
+    let carouselResizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(carouselResizeTimer);
+        carouselResizeTimer = setTimeout(() => {
+            currentIndex = 0;
+            updateCarousel();
+        }, 250);
+    });
+}
+
+// Handle window resize for canvas
 window.addEventListener('resize', () => {
     resizeCanvas();
     figurePath = createFigurePath();
