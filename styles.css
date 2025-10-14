@@ -262,6 +262,41 @@ canvas:active {
     cursor: grabbing;
 }
 
+/* Footer */
+.site-footer {
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+    background: rgba(20, 20, 20, 0.5);
+}
+
+.site-footer p {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #00cc00;
+    margin: 0;
+}
+
+.footer-link {
+    color: #00ff00;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.3s;
+}
+
+.footer-link:hover {
+    opacity: 0.7;
+}
+
+.footer-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
