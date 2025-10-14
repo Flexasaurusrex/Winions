@@ -365,11 +365,13 @@ canvas:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .section-content {
     max-width: 1200px;
     width: 100%;
+    text-align: center;
 }
 
 .content-section h2 {
@@ -378,6 +380,7 @@ canvas:active {
     letter-spacing: 8px;
     margin-bottom: 30px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .content-section h3 {
@@ -386,6 +389,7 @@ canvas:active {
     letter-spacing: 4px;
     margin: 40px 0 20px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .content-section h4 {
@@ -393,6 +397,7 @@ canvas:active {
     font-weight: 400;
     letter-spacing: 2px;
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .section-intro {
@@ -400,11 +405,13 @@ canvas:active {
     line-height: 1.8;
     margin-bottom: 40px;
     color: #00cc00;
+    text-align: center;
 }
 
 .content-section p {
     line-height: 1.8;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 /* Mint Details Grid */
