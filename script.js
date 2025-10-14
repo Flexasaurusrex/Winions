@@ -80,9 +80,9 @@ class Particle {
         // Draw trail with gradient opacity for better effect
         if (this.trail.length > 1) {
             for (let i = 1; i < this.trail.length; i++) {
-                const alpha = (i / this.trail.length) * 0.6; // Increased from 0.5 for more visible trails
-                ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-                ctx.lineWidth = 2.5; // Increased from 2 for thicker, more visible trails
+                const alpha = (i / this.trail.length) * 0.6;
+                ctx.strokeStyle = `rgba(0, 255, 0, ${alpha})`;
+                ctx.lineWidth = 2.5;
                 ctx.beginPath();
                 ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
                 ctx.lineTo(this.trail[i].x, this.trail[i].y);
@@ -91,15 +91,15 @@ class Particle {
         }
 
         // Draw particle with glow effect
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#00ff00';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
         
         // Add stronger glow for more visibility
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; // Increased from 0.3
+        ctx.fillStyle = 'rgba(0, 255, 0, 0.4)';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius + 3, 0, Math.PI * 2); // Increased from 2
+        ctx.arc(this.x, this.y, this.radius + 3, 0, Math.PI * 2);
         ctx.fill();
     }
 }
@@ -377,25 +377,25 @@ function drawEyes() {
 
 function drawEye(x, y, intensity) {
     // Outer glow (largest)
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.1})`;
+    ctx.fillStyle = `rgba(0, 255, 0, ${intensity * 0.1})`;
     ctx.beginPath();
     ctx.arc(x, y, 12, 0, Math.PI * 2);
     ctx.fill();
     
     // Middle glow
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.3})`;
+    ctx.fillStyle = `rgba(0, 255, 0, ${intensity * 0.3})`;
     ctx.beginPath();
     ctx.arc(x, y, 8, 0, Math.PI * 2);
     ctx.fill();
     
     // Inner glow
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity * 0.6})`;
+    ctx.fillStyle = `rgba(0, 255, 0, ${intensity * 0.6})`;
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, Math.PI * 2);
     ctx.fill();
     
     // Core (brightest)
-    ctx.fillStyle = `rgba(255, 255, 255, ${intensity})`;
+    ctx.fillStyle = `rgba(0, 255, 0, ${intensity})`;
     ctx.beginPath();
     ctx.arc(x, y, 3, 0, Math.PI * 2);
     ctx.fill();
