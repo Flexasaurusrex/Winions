@@ -270,14 +270,17 @@ if (track && prevBtn && nextBtn) {
     let currentIndex = 0;
     const cards = track.querySelectorAll('.house-card');
     
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
     function getCardWidth() {
-        if (window.innerWidth <= 768) {
-            // Mobile: 70vw card + 20px gap
-            return window.innerWidth * 0.7 + 20;
-        } else {
-            // Desktop: 300px card + 30px gap
-            return 330;
-        }
+        const card = cards[0];
+        if (!card) return 300;
+        const styles = window.getComputedStyle(card);
+        const width = card.offsetWidth;
+        const marginRight = parseFloat(styles.marginRight) || 0;
+        return width + marginRight;
     }
     
     function getVisibleCards() {
@@ -287,12 +290,29 @@ if (track && prevBtn && nextBtn) {
     }
     
     function getMaxIndex() {
-        return Math.max(0, cards.length - getVisibleCards());
+        return Math.max(0, cards.length - 1);
     }
 
     function updateCarousel() {
-        const cardWidth = getCardWidth();
-        const offset = -currentIndex * cardWidth;
+        let offset = 0;
+        
+        if (isMobile()) {
+            // On mobile, center each card in the viewport
+            const card = cards[currentIndex];
+            if (card) {
+                const viewportWidth = window.innerWidth;
+                const cardWidth = card.offsetWidth;
+                const cardLeft = card.offsetLeft;
+                
+                // Calculate offset to center the current card
+                offset = -(cardLeft - (viewportWidth / 2) + (cardWidth / 2));
+            }
+        } else {
+            // On desktop, use standard grid scrolling
+            const cardWidth = getCardWidth();
+            offset = -currentIndex * cardWidth;
+        }
+        
         track.style.transform = `translateX(${offset}px)`;
         
         const maxIndex = getMaxIndex();
@@ -320,14 +340,13 @@ if (track && prevBtn && nextBtn) {
     });
 
     // Initial update
-    updateCarousel();
+    setTimeout(updateCarousel, 100); // Small delay to ensure cards are rendered
     
     // Handle window resize for carousel
     let carouselResizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(carouselResizeTimer);
         carouselResizeTimer = setTimeout(() => {
-            currentIndex = 0;
             updateCarousel();
         }, 250);
     });
