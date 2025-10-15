@@ -7,7 +7,7 @@
 body {
     font-family: 'Courier New', monospace;
     background: #000000;
-    color: #00ff00;
+    color: #ff1a1a;
     overflow-x: hidden;
     position: relative;
 }
@@ -121,7 +121,7 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: #00ff00;
+    color: #ff1a1a;
     font-size: 14px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -186,7 +186,7 @@ nav {
     top: 20px;
     right: 20px;
     font-size: 40px;
-    color: #00ff00;
+    color: #ff1a1a;
     cursor: pointer;
     line-height: 1;
 }
@@ -203,7 +203,7 @@ nav {
 
 .mobile-nav-links a {
     text-decoration: none;
-    color: #00ff00;
+    color: #ff1a1a;
     font-size: 18px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -245,7 +245,7 @@ nav {
 .subtitle {
     font-size: 16px;
     letter-spacing: 3px;
-    color: #00cc00;
+    color: #dd0000;
     text-transform: uppercase;
 }
 
@@ -312,7 +312,7 @@ canvas:active {
     font-size: 18px;
     line-height: 1.8;
     margin-bottom: 40px;
-    color: #00cc00;
+    color: #dd0000;
     text-align: center;
 }
 
@@ -379,8 +379,8 @@ canvas:active {
 .otc-note {
     margin-top: 40px;
     padding: 30px;
-    border: 1px solid #00ff00;
-    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid #ff1a1a;
+    background: rgba(255, 26, 26, 0.05);
     text-align: center;
 }
 
@@ -388,7 +388,7 @@ canvas:active {
     font-size: 16px;
     line-height: 1.8;
     margin: 0;
-    color: #00ff00;
+    color: #ff1a1a;
 }
 
 /* Carousel */
@@ -574,21 +574,21 @@ canvas:active {
 
 .link-item {
     padding: 20px;
-    border: 1px solid #00ff00;
+    border: 1px solid #ff1a1a;
     background: rgba(20, 20, 20, 0.5);
     text-decoration: none;
-    color: #00ff00;
+    color: #ff1a1a;
     transition: border-color 0.3s, transform 0.3s;
     display: block;
 }
 
 .link-item:hover {
-    border-color: #00cc00;
+    border-color: #dd0000;
     transform: translateY(-3px);
 }
 
 .inline-link {
-    color: #00ff00;
+    color: #ff1a1a;
     text-decoration: underline;
     transition: opacity 0.3s;
 }
@@ -608,13 +608,13 @@ canvas:active {
 .site-footer p {
     font-size: 15px;
     letter-spacing: 1px;
-    color: #00cc00;
+    color: #dd0000;
     margin: 0;
     line-height: 1.5;
 }
 
 .footer-link {
-    color: #00ff00;
+    color: #ff1a1a;
     text-decoration: none;
     transition: opacity 0.3s;
     white-space: nowrap;
