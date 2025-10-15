@@ -1,169 +1,181 @@
-// Canvas setup
+// Canvas Setup
 const canvas = document.getElementById('artCanvas');
 const ctx = canvas.getContext('2d');
+const container = canvas.parentElement;
 
-// Set canvas size
 function resizeCanvas() {
-    const container = canvas.parentElement;
     canvas.width = container.offsetWidth;
     canvas.height = container.offsetHeight;
 }
-
 resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-// Hooded figure shape (bell-shaped cloak with hood)
-const figureShape = {
-    hood: [
-        { x: 0.5, y: 0.15 },
-        { x: 0.45, y: 0.18 },
-        { x: 0.42, y: 0.22 },
-        { x: 0.40, y: 0.26 },
-        { x: 0.58, y: 0.26 },
-        { x: 0.60, y: 0.22 },
-        { x: 0.55, y: 0.18 }
-    ],
-    shoulders: [
-        { x: 0.35, y: 0.30 },
-        { x: 0.65, y: 0.30 }
-    ],
-    body: [
-        { x: 0.32, y: 0.40 },
-        { x: 0.28, y: 0.55 },
-        { x: 0.25, y: 0.70 },
-        { x: 0.23, y: 0.85 },
-        { x: 0.77, y: 0.85 },
-        { x: 0.75, y: 0.70 },
-        { x: 0.72, y: 0.55 },
-        { x: 0.68, y: 0.40 }
-    ]
-};
-
-const allPoints = [
-    ...figureShape.hood,
-    ...figureShape.shoulders,
-    ...figureShape.body
-];
-
+// Physics-based animation
 class Particle {
-    constructor(index) {
-        this.targetIndex = index;
-        this.updateTarget();
-        this.x = this.targetX;
-        this.y = this.targetY;
-        this.vx = 0;
-        this.vy = 0;
+    constructor(pathIndex, totalParticles) {
+        this.pathIndex = pathIndex;
+        this.totalParticles = totalParticles;
+        this.progress = pathIndex / totalParticles;
+        this.x = 0;
+        this.y = 0;
+        this.radius = 3;
         this.trail = [];
+        this.maxTrail = 60; // Increased from 50 for longer, more visible trails
+        this.speed = 0.002 + Math.random() * 0.001;
     }
 
-    updateTarget() {
-        const point = allPoints[this.targetIndex];
-        this.targetX = point.x * canvas.width;
-        this.targetY = point.y * canvas.height;
-    }
-
-    update(mouseX, mouseY, isMouseDown) {
-        this.updateTarget();
-
-        if (isMouseDown) {
-            const dx = this.x - mouseX;
-            const dy = this.y - mouseY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+    update(path, isInteracting, mouseX, mouseY) {
+        // Move along the path
+        this.progress += this.speed;
+        if (this.progress >= 1) this.progress = 0;
+        
+        const point = this.getPointOnPath(path, this.progress);
+        
+        if (isInteracting) {
+            // Add intense mouse influence with much greater range and force
+            const dx = mouseX - point.x;
+            const dy = mouseY - point.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const influenceRadius = 450; // Increased from 250 for wider spread
             
-            if (distance < 450) {
-                const force = (1 - distance / 450) ** 2 * 120;
-                const angle = Math.atan2(dy, dx);
-                const chaos = (Math.random() - 0.5) * 1.0;
-                this.vx += Math.cos(angle + chaos) * force;
-                this.vy += Math.sin(angle + chaos) * force;
+            if (dist < influenceRadius) {
+                const forceFactor = (1 - dist / influenceRadius);
+                const force = forceFactor * forceFactor * 120; // Increased from 80 for more dramatic effect
+                point.x += (dx / dist) * force;
+                point.y += (dy / dist) * force;
+                
+                // Add more randomness for wilder effect
+                const chaos = force * 0.5; // Increased from 0.3
+                point.x += (Math.random() - 0.5) * chaos;
+                point.y += (Math.random() - 0.5) * chaos;
             }
         }
-
-        const dx = this.targetX - this.x;
-        const dy = this.targetY - this.y;
-        this.vx += dx * 0.02;
-        this.vy += dy * 0.02;
-
-        this.vx *= 0.85;
-        this.vy *= 0.85;
-
-        this.x += this.vx;
-        this.y += this.vy;
-
-        this.trail.push({ x: this.x, y: this.y });
-        if (this.trail.length > 60) {
+        
+        this.x = point.x;
+        this.y = point.y;
+        
+        this.trail.push({x: this.x, y: this.y});
+        if (this.trail.length > this.maxTrail) {
             this.trail.shift();
         }
     }
 
+    getPointOnPath(path, progress) {
+        const totalPoints = path.length;
+        const index = progress * totalPoints;
+        const currentIndex = Math.floor(index);
+        const nextIndex = (currentIndex + 1) % totalPoints;
+        const t = index - currentIndex;
+        
+        const current = path[currentIndex];
+        const next = path[nextIndex];
+        
+        return {
+            x: current.x + (next.x - current.x) * t,
+            y: current.y + (next.y - current.y) * t
+        };
+    }
+
     draw() {
+        // Draw trail with gradient opacity for better effect
         if (this.trail.length > 1) {
-            ctx.beginPath();
-            ctx.moveTo(this.trail[0].x, this.trail[0].y);
-            
             for (let i = 1; i < this.trail.length; i++) {
+                const alpha = (i / this.trail.length) * 0.6;
+                ctx.strokeStyle = `rgba(255, 26, 26, ${alpha})`;
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(this.trail[i - 1].x, this.trail[i - 1].y);
                 ctx.lineTo(this.trail[i].x, this.trail[i].y);
+                ctx.stroke();
             }
-            
-            const gradient = ctx.createLinearGradient(
-                this.trail[0].x, this.trail[0].y,
-                this.x, this.y
-            );
-            gradient.addColorStop(0, 'rgba(255, 26, 26, 0)');
-            gradient.addColorStop(1, 'rgba(255, 26, 26, 0.6)');
-            
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 2.5;
-            ctx.stroke();
         }
 
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = '#ff1a1a';
-        ctx.fillStyle = '#ffffff';
+        // Draw particle with glow effect
+        ctx.fillStyle = '#ff1a1a';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.shadowBlur = 0;
+        
+        // Add stronger glow for more visibility
+        ctx.fillStyle = 'rgba(255, 26, 26, 0.4)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius + 3, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
+// Create hooded figure outline path
+function createFigurePath() {
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const scale = Math.min(canvas.width, canvas.height) * 0.35;
+    
+    const path = [];
+    
+    // Top of hood (rounded)
+    for (let i = 0; i <= 20; i++) {
+        const angle = Math.PI + (i / 20) * Math.PI;
+        const x = centerX + Math.cos(angle) * scale * 0.35;
+        const y = centerY - scale * 0.7 + Math.sin(angle) * scale * 0.2;
+        path.push({x, y});
+    }
+    
+    // Right side of hood/shoulder
+    for (let i = 0; i <= 15; i++) {
+        const t = i / 15;
+        const x = centerX + scale * 0.35 + t * scale * 0.25;
+        const y = centerY - scale * 0.5 + t * scale * 0.4;
+        path.push({x, y});
+    }
+    
+    // Right side of cloak (widens)
+    for (let i = 0; i <= 25; i++) {
+        const t = i / 25;
+        const x = centerX + scale * 0.6 + t * scale * 0.15;
+        const y = centerY - scale * 0.1 + t * scale * 0.9;
+        path.push({x, y});
+    }
+    
+    // Bottom of cloak
+    for (let i = 0; i <= 20; i++) {
+        const t = i / 20;
+        const x = centerX + scale * 0.75 - t * scale * 1.5;
+        const y = centerY + scale * 0.8;
+        path.push({x, y});
+    }
+    
+    // Left side of cloak
+    for (let i = 0; i <= 25; i++) {
+        const t = i / 25;
+        const x = centerX - scale * 0.75 + t * scale * 0.15;
+        const y = centerY + scale * 0.8 - t * scale * 0.9;
+        path.push({x, y});
+    }
+    
+    // Left side of hood/shoulder
+    for (let i = 0; i <= 15; i++) {
+        const t = i / 15;
+        const x = centerX - scale * 0.6 + t * scale * 0.25;
+        const y = centerY - scale * 0.1 - t * scale * 0.4;
+        path.push({x, y});
+    }
+    
+    return path;
+}
+
+let figurePath = createFigurePath();
+
+// Create particles
 const particles = [];
-for (let i = 0; i < 15; i++) {
-    const index = Math.floor((i / 15) * allPoints.length);
-    particles.push(new Particle(index));
+const numParticles = 15; // Increased from 12 for more dramatic, fuller effect
+
+for (let i = 0; i < numParticles; i++) {
+    particles.push(new Particle(i, numParticles));
 }
 
-const eyes = [
-    { x: 0.45, y: 0.20, phase: 0 },
-    { x: 0.55, y: 0.20, phase: Math.PI }
-];
-
-function drawEyes() {
-    eyes.forEach(eye => {
-        const eyeX = eye.x * canvas.width;
-        const eyeY = eye.y * canvas.height;
-        
-        eye.phase += 0.1 + Math.random() * 0.05;
-        const flicker = 0.6 + Math.sin(eye.phase) * 0.2 + Math.random() * 0.2;
-        
-        for (let i = 0; i < 4; i++) {
-            const size = 8 - i * 1.5;
-            const alpha = (0.3 - i * 0.05) * flicker;
-            
-            ctx.fillStyle = `rgba(255, 26, 26, ${alpha})`;
-            ctx.beginPath();
-            ctx.arc(eyeX, eyeY, size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        ctx.fillStyle = `rgba(255, 255, 255, ${0.9 * flicker})`;
-        ctx.beginPath();
-        ctx.arc(eyeX, eyeY, 2, 0, Math.PI * 2);
-        ctx.fill();
-    });
-}
-
-let mouseX = 0;
-let mouseY = 0;
+// Mouse interaction
+let mouseX = canvas.width / 2;
+let mouseY = canvas.height / 2;
 let isMouseDown = false;
 
 canvas.addEventListener('mousemove', (e) => {
@@ -184,8 +196,16 @@ canvas.addEventListener('mouseleave', () => {
     isMouseDown = false;
 });
 
-canvas.addEventListener('touchstart', (e) => {
+// Touch interaction for mobile
+canvas.addEventListener('touchmove', (e) => {
     e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    mouseX = touch.clientX - rect.left;
+    mouseY = touch.clientY - rect.top;
+}, { passive: false });
+
+canvas.addEventListener('touchstart', (e) => {
     isMouseDown = true;
     const rect = canvas.getBoundingClientRect();
     const touch = e.touches[0];
@@ -193,54 +213,41 @@ canvas.addEventListener('touchstart', (e) => {
     mouseY = touch.clientY - rect.top;
 });
 
-canvas.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches[0];
-    mouseX = touch.clientX - rect.left;
-    mouseY = touch.clientY - rect.top;
-});
-
-canvas.addEventListener('touchend', (e) => {
-    e.preventDefault();
+canvas.addEventListener('touchend', () => {
     isMouseDown = false;
 });
 
-function animate() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(particle => {
-        particle.update(mouseX, mouseY, isMouseDown);
-        particle.draw();
-    });
-
-    drawEyes();
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-
+// Hamburger menu functionality
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 const closeMenu = document.getElementById('closeMenu');
-const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
 
-hamburger.addEventListener('click', () => {
-    mobileMenu.classList.add('active');
-});
+if (hamburger && mobileMenu && closeMenu) {
+    hamburger.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+    });
 
-closeMenu.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-});
-
-mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    closeMenu.addEventListener('click', () => {
         mobileMenu.classList.remove('active');
     });
-});
 
+    // Close menu when clicking on a link
+    const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.remove('active');
+        }
+    });
+}
+
+// Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -254,48 +261,144 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Carousel functionality
 const track = document.getElementById('carouselTrack');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const carouselWrapper = track ? track.parentElement : null;
 
-let currentIndex = 0;
-const totalCards = document.querySelectorAll('.house-card').length;
-
-function getCardsPerView() {
-    if (window.innerWidth <= 768) {
-        return 3;
-    }
-    return 3;
-}
-
-function updateCarousel() {
-    const cardsPerView = getCardsPerView();
-    const cardWidth = document.querySelector('.house-card').offsetWidth;
-    const gap = window.innerWidth <= 768 ? 15 : 30;
-    const offset = currentIndex * (cardWidth + gap);
+if (track && prevBtn && nextBtn && carouselWrapper) {
+    let currentIndex = 0;
+    const cards = track.querySelectorAll('.house-card');
     
-    track.style.transform = `translateX(-${offset}px)`;
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    function updateCarousel() {
+        if (isMobile()) {
+            // On mobile, use native scrolling - don't apply transform
+            track.style.transform = 'none';
+            return;
+        }
+        
+        // Desktop: use button navigation
+        const cardWidth = 330; // 300px + 30px gap
+        const offset = -currentIndex * cardWidth;
+        track.style.transform = `translateX(${offset}px)`;
+        
+        const visibleCards = window.innerWidth > 1200 ? 3 : 2;
+        const maxIndex = Math.max(0, cards.length - visibleCards);
+        
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= maxIndex;
+        prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
+        nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (!isMobile() && currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (!isMobile()) {
+            const visibleCards = window.innerWidth > 1200 ? 3 : 2;
+            const maxIndex = Math.max(0, cards.length - visibleCards);
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateCarousel();
+            }
+        }
+    });
+
+    // Initial update
+    updateCarousel();
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            currentIndex = 0;
+            updateCarousel();
+        }, 250);
+    });
 }
 
-prevBtn.addEventListener('click', () => {
-    const cardsPerView = getCardsPerView();
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
-    }
-});
-
-nextBtn.addEventListener('click', () => {
-    const cardsPerView = getCardsPerView();
-    const maxIndex = totalCards - cardsPerView;
-    if (currentIndex < maxIndex) {
-        currentIndex++;
-        updateCarousel();
-    }
-});
-
+// Handle window resize for canvas
 window.addEventListener('resize', () => {
     resizeCanvas();
-    currentIndex = 0;
-    updateCarousel();
+    figurePath = createFigurePath();
 });
+
+// Animation loop
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw particles
+    particles.forEach(particle => {
+        particle.update(figurePath, isMouseDown, mouseX, mouseY);
+        particle.draw();
+    });
+    
+    // Draw glowing eyes
+    drawEyes();
+    
+    requestAnimationFrame(animate);
+}
+
+// Draw flickering ghostly eyes
+let eyeFlickerTime = 0;
+function drawEyes() {
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const scale = Math.min(canvas.width, canvas.height) * 0.35;
+    
+    // Eye positions (near top of hood)
+    const eyeY = centerY - scale * 0.5;
+    const eyeSpacing = scale * 0.15;
+    const leftEyeX = centerX - eyeSpacing;
+    const rightEyeX = centerX + eyeSpacing;
+    
+    // Flicker animation
+    eyeFlickerTime += 0.05;
+    const flicker1 = 0.7 + Math.sin(eyeFlickerTime * 3) * 0.15 + Math.random() * 0.15;
+    const flicker2 = 0.7 + Math.sin(eyeFlickerTime * 2.7 + 1) * 0.15 + Math.random() * 0.15;
+    
+    // Draw left eye
+    drawEye(leftEyeX, eyeY, flicker1);
+    
+    // Draw right eye
+    drawEye(rightEyeX, eyeY, flicker2);
+}
+
+function drawEye(x, y, intensity) {
+    // Outer glow (largest)
+    ctx.fillStyle = `rgba(255, 26, 26, ${intensity * 0.1})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 12, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Middle glow
+    ctx.fillStyle = `rgba(255, 26, 26, ${intensity * 0.3})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Inner glow
+    ctx.fillStyle = `rgba(255, 26, 26, ${intensity * 0.6})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Core (brightest)
+    ctx.fillStyle = `rgba(255, 26, 26, ${intensity})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+animate();
