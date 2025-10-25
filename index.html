@@ -1,318 +1,844 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winions - A RascalX Art Collection</title>
-    <meta name="description" content="A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.">
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: #000000;
+    color: #ff1a1a;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Crisp Grainy Static Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Digital Glitch Grain Effect */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter2'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter2)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 2;
+    animation: digitalGlitch 0.15s steps(8) infinite;
+    mix-blend-mode: screen;
+}
+
+@keyframes digitalGlitch {
+    0% { 
+        opacity: 0.06;
+        transform: translate(0, 0);
+    }
+    20% { 
+        opacity: 0.08;
+        transform: translate(-2px, 1px);
+    }
+    40% { 
+        opacity: 0.05;
+        transform: translate(1px, -1px);
+    }
+    60% { 
+        opacity: 0.07;
+        transform: translate(2px, 0px);
+    }
+    80% { 
+        opacity: 0.06;
+        transform: translate(-1px, 2px);
+    }
+    100% { 
+        opacity: 0.08;
+        transform: translate(1px, -2px);
+    }
+}
+
+body > * {
+    position: relative;
+    z-index: 3;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(20, 20, 20, 0.9);
+    border-bottom: 1px solid #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #ff1a1a;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 0.6;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 60px;
+    background: rgba(80, 80, 80, 0.8);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 999;
+    transition: background 0.3s;
+}
+
+.hamburger:hover {
+    background: rgba(120, 120, 120, 0.9);
+}
+
+.hamburger span {
+    width: 20px;
+    height: 2px;
+    background: white;
+    transition: all 0.3s;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.98);
+    z-index: 1001;
+    transition: left 0.3s ease;
+    padding: 60px 30px;
+    box-shadow: 2px 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.mobile-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 40px;
+    color: #ff1a1a;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav-links li {
+    margin: 30px 0;
+}
+
+.mobile-nav-links a {
+    text-decoration: none;
+    color: #ff1a1a;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: opacity 0.3s;
+    display: block;
+    padding: 10px 0;
+}
+
+.mobile-nav-links a:hover {
+    opacity: 0.6;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 100px;
+    text-align: center;
+}
+
+/* Title Section */
+.title-section {
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 10;
+}
+
+.title-section h1 {
+    font-size: 72px;
+    font-weight: 300;
+    letter-spacing: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: #dd0000;
+    text-transform: uppercase;
+}
+
+/* Canvas Container */
+.canvas-container {
+    position: relative;
+    width: 800px;
+    height: 500px;
+    margin: 40px 0;
+}
+
+canvas {
+    display: block;
+    cursor: grab;
+}
+
+canvas:active {
+    cursor: grabbing;
+}
+
+/* Content Sections */
+.content-section {
+    min-height: auto;
+    padding: 60px 40px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.section-content {
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+}
+
+.content-section h2 {
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: 8px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.content-section h3 {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    margin: 40px 0 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.content-section h4 {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.section-intro {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    color: #dd0000;
+    text-align: center;
+}
+
+.content-section p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Mint Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid #333;
+    background: rgba(20, 20, 20, 0.5);
+}
+
+.detail-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.detail-value {
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+/* Phases */
+.phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.phase-card {
+    padding: 30px;
+    border: 1px solid #444;
+    background: rgba(30, 30, 30, 0.5);
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.phase-card:hover {
+    transform: translateY(-5px);
+    border-color: #666;
+}
+
+.phase-card h4 {
+    margin-bottom: 15px;
+}
+
+/* OTC Note */
+.otc-note {
+    margin-top: 40px;
+    padding: 30px;
+    border: 1px solid #ff1a1a;
+    background: rgba(255, 26, 26, 0.05);
+    text-align: center;
+}
+
+.otc-note p {
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 0;
+    color: #ff1a1a;
+}
+
+/* Video Container */
+.video-container {
+    max-width: 900px;
+    margin: 40px auto;
+    border: 2px solid #ff1a1a;
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #000;
+}
+
+/* Carousel */
+.carousel-container {
+    position: relative;
+    margin: 40px 0;
+    padding: 0 60px;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 30px;
+    transition: transform 0.5s ease;
+}
+
+.house-card {
+    min-width: 300px;
+    flex-shrink: 0;
+    padding: 30px;
+    border: 2px solid #333;
+    background: rgba(20, 20, 20, 0.8);
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.house-card:hover {
+    transform: scale(1.05);
+}
+
+.house-card.common:hover {
+    border-color: #888;
+}
+
+.house-card.uncommon:hover {
+    border-color: #4CAF50;
+}
+
+.house-card.rare:hover {
+    border-color: #2196F3;
+}
+
+.house-card.ultra-rare:hover {
+    border-color: #9C27B0;
+}
+
+.house-card.mythic:hover {
+    border-color: #FF9800;
+}
+
+.house-image-placeholder {
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 20px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+}
+
+.house-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Force all GIFs to play at all times */
+.house-image-placeholder img {
+    animation: forcePlay 0.001s infinite;
+}
+
+@keyframes forcePlay {
+    0%, 100% { opacity: 0.9999; }
+}
+
+.house-card h4 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.rarity-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    border: 1px solid;
+}
+
+.common-badge {
+    border-color: #666;
+    color: #999;
+}
+
+.uncommon-badge {
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+
+.rare-badge {
+    border-color: #2196F3;
+    color: #2196F3;
+}
+
+.ultra-rare-badge {
+    border-color: #9C27B0;
+    color: #9C27B0;
+}
+
+.mythic-badge {
+    border-color: #FF9800;
+    color: #FF9800;
+}
+
+.rarity-percent {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #444;
+    color: #ffffff;
+    font-size: 48px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #666;
+}
+
+.carousel-btn.prev {
+    left: 0;
+}
+
+.carousel-btn.next {
+    right: 0;
+}
+
+/* Generals Info */
+.generals-info {
+    margin-top: 40px;
+    padding: 40px;
+    border: 1px solid #444;
+    background: rgba(30, 30, 30, 0.5);
+}
+
+/* Bounty Section */
+.bounty-example {
+    padding: 40px;
+    border: 1px solid #444;
+    background: rgba(30, 30, 30, 0.5);
+    margin: 40px 0;
+}
+
+.bounty-example h4 {
+    margin-bottom: 20px;
+}
+
+/* Links Grid */
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.link-item {
+    padding: 20px;
+    border: 1px solid #ff1a1a;
+    background: rgba(20, 20, 20, 0.5);
+    text-decoration: none;
+    color: #ff1a1a;
+    transition: border-color 0.3s, transform 0.3s;
+    display: block;
+}
+
+.link-item:hover {
+    border-color: #dd0000;
+    transform: translateY(-3px);
+}
+
+.inline-link {
+    color: #ff1a1a;
+    text-decoration: underline;
+    transition: opacity 0.3s;
+}
+
+.inline-link:hover {
+    opacity: 0.7;
+}
+
+/* Footer */
+.site-footer {
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 1px solid #333;
+    background: rgba(20, 20, 20, 0.5);
+}
+
+.site-footer p {
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #dd0000;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.footer-link {
+    color: #ff1a1a;
+    text-decoration: none;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+.footer-link:hover {
+    opacity: 0.7;
+}
+
+.footer-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 4px;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    nav {
+        padding: 15px 20px;
+    }
+
+    .logo {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .logo-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .logo-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .container {
+        padding: 80px 20px 40px;
+    }
+
+    .title-section {
+        margin-bottom: 40px;
+    }
+
+    .title-section h1 {
+        font-size: 48px;
+        letter-spacing: 10px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        letter-spacing: 2px;
+    }
+
+    .canvas-container {
+        width: 90vw;
+        height: 50vh;
+        min-height: 300px;
+        max-height: 400px;
+        margin: 20px 0;
+    }
+
+    .content-section {
+        padding: 40px 20px 30px;
+    }
+
+    .content-section h2 {
+        font-size: 32px;
+        letter-spacing: 4px;
+    }
+
+    .content-section h3 {
+        font-size: 24px;
+        letter-spacing: 2px;
+        margin: 30px 0 15px;
+    }
+
+    .carousel-container {
+        padding: 0 50px;
+        margin: 30px 0;
+    }
+
+    .carousel-wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .carousel-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel-track {
+        gap: 15px;
+        padding: 10px 20px;
+        transition: none;
+    }
+
+    .house-card {
+        min-width: 28vw;
+        max-width: 28vw;
+        flex-shrink: 0;
+        padding: 12px;
+    }
+
+    .house-image-placeholder {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        margin: 0 auto 10px;
+    }
+
+    .house-card h4 {
+        font-size: 13px;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
+    .rarity-badge {
+        padding: 4px 8px;
+        font-size: 8px;
+        margin-bottom: 6px;
+        letter-spacing: 1px;
+    }
+
+    .rarity-percent {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    .carousel-btn {
+        display: block;
+        font-size: 36px;
+        width: 40px;
+        height: 40px;
+    }
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    .carousel-btn.prev {
+        left: 10px;
+    }
     
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://winions.xyz/">
-    <meta property="og:title" content="Winions - A RascalX Art Collection">
-    <meta property="og:description" content="A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.">
-    <meta property="og:image" content="https://winions.xyz/social.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://winions.xyz/">
-    <meta property="twitter:title" content="Winions - A RascalX Art Collection">
-    <meta property="twitter:description" content="A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.">
-    <meta property="twitter:image" content="https://winions.xyz/social.png">
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <!-- Hamburger Menu -->
-    <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+    .carousel-btn.next {
+        right: 10px;
+    }
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu-close" id="closeMenu">&times;</div>
-        <ul class="mobile-nav-links">
-            <li><a href="#mint">Mint</a></li>
-            <li><a href="#rarity">Rarity</a></li>
-            <li><a href="#bounties">Bounties</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="https://winionmemes.vercel.app/" target="_blank">Meme Generator</a></li>
-        </ul>
-    </div>
+    .site-footer p {
+        font-size: 12px;
+    }
 
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">
-            <div class="logo-icon">
-                <img src="favicon.ico" alt="Winions Logo">
-            </div>
-            <span>Winions</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#mint">Mint</a></li>
-            <li><a href="#rarity">Rarity</a></li>
-            <li><a href="#bounties">Bounties</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="https://winionmemes.vercel.app/" target="_blank">Meme Generator</a></li>
-        </ul>
-    </nav>
+    .footer-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="title-section">
-            <h1>WINIONS</h1>
-            <p class="subtitle">A RascalX Art Collection</p>
-        </div>
+@media (max-width: 480px) {
+    .title-section h1 {
+        font-size: 36px;
+        letter-spacing: 6px;
+    }
 
-        <div class="canvas-container">
-            <canvas id="artCanvas"></canvas>
-        </div>
-    </div>
+    .subtitle {
+        font-size: 11px;
+        letter-spacing: 1.5px;
+    }
 
-    <!-- Mint Section -->
-    <section id="mint" class="content-section">
-        <div class="section-content">
-            <h2>MINT DETAILS</h2>
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span class="detail-label">Artist</span>
-                    <span class="detail-value">@rvscvnx</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Blockchain</span>
-                    <span class="detail-value">Ethereum</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Supply</span>
-                    <span class="detail-value">666</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Reveal</span>
-                    <span class="detail-value">Instant reveal after mint</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Royalties</span>
-                    <span class="detail-value">6.66%</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Mint Date</span>
-                    <span class="detail-value">The week of Halloween</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Contract</span>
-                    <span class="detail-value">ERC-721 on Transient Labs</span>
-                </div>
-            </div>
+    .canvas-container {
+        height: 45vh;
+        min-height: 250px;
+    }
 
-            <h3>PHASES</h3>
-            <div class="phases">
-                <div class="phase-card">
-                    <h4>Phase 1 — FRENZY</h4>
-                    <p>69 FCFS free for all Rascalx holders.</p>
-                </div>
-                <div class="phase-card">
-                    <h4>Phase 2 — FREE FOR ALL</h4>
-                    <p>Free 300 supply to AL. Two per wallet max.</p>
-                </div>
-                <div class="phase-card">
-                    <h4>Phase 3 — FOMO</h4>
-                    <p>The final 297 at 0.0222Ξ. Open to the public. 10 per wallet max.</p>
-                </div>
-            </div>
-            
-            <div class="otc-note">
-                <p>FOMO phase will be open to bulk OTC offers during phase 2. Send .111 eth to rascalx.eth and you will receive 5 NFTs. If you send funds and it's sold out you will be refunded.</p>
-            </div>
-        </div>
-    </section>
+    nav {
+        padding: 12px 15px;
+    }
 
-    <!-- Rarity Section -->
-    <section id="rarity" class="content-section">
-        <div class="section-content">
-            <h2>RARITY STRUCTURE</h2>
-            <p class="section-intro">There are 13 Houses within the 666 Winions. Each House represents a distinct tone — from quiet forms to full digital chaos. Most Winions belong to the Common Houses, while others emerge from rarer realms.</p>
-            
-            <div class="carousel-container">
-                <button class="carousel-btn prev" id="prevBtn">‹</button>
-                <div class="carousel-wrapper">
-                    <div class="carousel-track" id="carouselTrack">
-                        <!-- Common Houses -->
-                        <div class="house-card common">
-                            <div class="house-image-placeholder">
-                                <img src="havoc.gif" alt="House of Havoc" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Havoc</h4>
-                            <p class="rarity-badge common-badge">COMMON</p>
-                            <p class="rarity-percent">33.3%</p>
-                        </div>
-                        <div class="house-card common">
-                            <div class="house-image-placeholder">
-                                <img src="misfit.gif" alt="House of Misfits" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Misfits</h4>
-                            <p class="rarity-badge common-badge">COMMON</p>
-                            <p class="rarity-percent">16.7%</p>
-                        </div>
-                        
-                        <!-- Uncommon Houses -->
-                        <div class="house-card uncommon">
-                            <div class="house-image-placeholder">
-                                <img src="frog.gif" alt="House of Frog" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Frog</h4>
-                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
-                            <p class="rarity-percent">9.9%</p>
-                        </div>
-                        <div class="house-card uncommon">
-                            <div class="house-image-placeholder">
-                                <img src="theory.gif" alt="House of Theory" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Theory</h4>
-                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
-                            <p class="rarity-percent">8.3%</p>
-                        </div>
-                        <div class="house-card uncommon">
-                            <div class="house-image-placeholder">
-                                <img src="clay.gif" alt="House of Clay" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Clay</h4>
-                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
-                            <p class="rarity-percent">5%</p>
-                        </div>
-                        <div class="house-card uncommon">
-                            <div class="house-image-placeholder">
-                                <img src="stencil.gif" alt="House of Stencil" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Stencil</h4>
-                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
-                            <p class="rarity-percent">5%</p>
-                        </div>
-                        <div class="house-card uncommon">
-                            <div class="house-image-placeholder">
-                                <img src="spectrum.gif" alt="House of Spectrum" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Spectrum</h4>
-                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
-                            <p class="rarity-percent">6.6%</p>
-                        </div>
-                        
-                        <!-- Rare Houses -->
-                        <div class="house-card rare">
-                            <div class="house-image-placeholder">
-                                <img src="royal.gif" alt="House of Royal" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Royal</h4>
-                            <p class="rarity-badge rare-badge">RARE</p>
-                            <p class="rarity-percent">3.3%</p>
-                        </div>
-                        <div class="house-card rare">
-                            <div class="house-image-placeholder">
-                                <img src="shadow.gif" alt="House of Shadows" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Shadows</h4>
-                            <p class="rarity-badge rare-badge">RARE</p>
-                            <p class="rarity-percent">3.3%</p>
-                        </div>
-                        <div class="house-card rare">
-                            <div class="house-image-placeholder">
-                                <img src="hellish.gif" alt="House of Hellish" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Hellish</h4>
-                            <p class="rarity-badge rare-badge">RARE</p>
-                            <p class="rarity-percent">3.3%</p>
-                        </div>
-                        
-                        <!-- Ultra Rare Houses -->
-                        <div class="house-card ultra-rare">
-                            <div class="house-image-placeholder">
-                                <img src="hologram.gif" alt="House of Hologram" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Hologram</h4>
-                            <p class="rarity-badge ultra-rare-badge">ULTRA RARE</p>
-                            <p class="rarity-percent">3.3%</p>
-                        </div>
-                        <div class="house-card ultra-rare">
-                            <div class="house-image-placeholder">
-                                <img src="gold.gif" alt="House of Gold" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Gold</h4>
-                            <p class="rarity-badge ultra-rare-badge">ULTRA RARE</p>
-                            <p class="rarity-percent">1.7%</p>
-                        </div>
-                        
-                        <!-- Mythic House -->
-                        <div class="house-card mythic">
-                            <div class="house-image-placeholder">
-                                <img src="winionswhat.gif" alt="House of Death" class="house-image" loading="eager">
-                            </div>
-                            <h4>House of Death</h4>
-                            <p class="rarity-badge mythic-badge">MYTHIC</p>
-                            <p class="rarity-percent">0.5%</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-btn next" id="nextBtn">›</button>
-            </div>
+    .logo {
+        font-size: 12px;
+    }
 
-            <div class="generals-info">
-                <h3>WHAT ARE GENERALS?</h3>
-                <p>Each House (minus the House of Death) is led by a single General Winion (1/1). Generals are not part of the mint, they can only be earned through the Winions Bounty System.</p>
-            </div>
-        </div>
-    </section>
+    .logo-icon {
+        width: 30px;
+        height: 30px;
+    }
 
-    <!-- Bounties Section -->
-    <section id="bounties" class="content-section">
-        <div class="section-content">
-            <h2>BOUNTIES</h2>
-            <p class="section-intro">Bounties are a post-mint checklist designed to reward collectors who play and dive deeper into the collection. Think of it as Bingo, assemble specific sets, yet to be revealed, to claim rewards.</p>
-            
-            <div class="bounty-example">
-                <h4>Example:</h4>
-                <p>First to collect three from the House of Gold.</p>
-                <p>When a bounty is achieved, collectors can submit a claim. The first verified claim wins that House's General (1/1). Each General will be airdropped to the rightful winner.</p>
-            </div>
+    .logo-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 
-            <h3>WHY THE BOUNTY SYSTEM?</h3>
-            <p>Winions like to travel in packs. It's a fair, playful system where effort and curiosity replace pure luck.</p>
+    .house-card h4 {
+        font-size: 18px;
+    }
 
-            <h3>LICENSING & RIGHTS</h3>
-            <p>Winions come with full personal and commercial rights for holders. You may use your Winion for merch, media, or creative projects. Each piece is stored on-chain with permanent metadata.</p>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section id="team" class="content-section">
-        <div class="section-content">
-            <h2>THE TEAM</h2>
-            <p><strong>Artist:</strong> <a href="https://x.com/rvscvnx" target="_blank" class="inline-link">@rvscvnx</a></p>
-            <p><strong>Produced by:</strong> CØNSPIRATØRS</p>
-
-            <h3 style="margin-top: 40px;">OFFICIAL LINKS</h3>
-            <div class="links-grid">
-                <a href="https://winions.xyz" target="_blank" class="link-item">Website: winions.xyz</a>
-                <a href="https://x.com/Winions_nft" target="_blank" class="link-item">Twitter: @Winions_nft</a>
-                <a href="https://x.com/rvscvnx" target="_blank" class="link-item">Artist: @rvscvnx</a>
-                <p class="link-item">Contract: To be announced</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <p>Site made with love by 
-            <a href="https://x.com/rexflexasaurus" target="_blank" class="footer-link">
-                <img src="flexy.png" alt="Flex" class="footer-icon" onerror="this.style.display='none'">Flex
-            </a>
-        </p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+    .rarity-percent {
+        font-size: 24px;
+    }
+}
