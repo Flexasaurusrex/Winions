@@ -391,6 +391,22 @@ canvas:active {
     color: #ff1a1a;
 }
 
+/* Video Container */
+.video-container {
+    max-width: 900px;
+    margin: 40px auto;
+    border: 2px solid #ff1a1a;
+    background: rgba(20, 20, 20, 0.8);
+    padding: 20px;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #000;
+}
+
 /* Carousel */
 .carousel-container {
     position: relative;
