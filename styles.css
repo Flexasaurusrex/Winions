@@ -580,6 +580,36 @@ canvas:active {
     margin-bottom: 20px;
 }
 
+/* Bounty Form Box */
+.bounty-form-box {
+    margin: 40px auto;
+    text-align: center;
+}
+
+.bounty-form-link {
+    display: inline-block;
+    padding: 25px 50px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid #ff1a1a;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 20px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    box-shadow: 0 0 30px rgba(255, 26, 26, 0.8), inset 0 0 20px rgba(255, 26, 26, 0.2);
+    text-shadow: 0 0 10px rgba(255, 26, 26, 0.8);
+}
+
+.bounty-form-link:hover {
+    background: rgba(255, 26, 26, 0.2);
+    box-shadow: 0 0 50px rgba(255, 26, 26, 1), inset 0 0 30px rgba(255, 26, 26, 0.4);
+    text-shadow: 0 0 20px rgba(255, 26, 26, 1);
+    transform: translateY(-3px);
+    border-color: #ff4444;
+}
+
 /* Links Grid */
 .links-grid {
     display: grid;
