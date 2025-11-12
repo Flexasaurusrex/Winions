@@ -120,6 +120,7 @@ nav {
     flex: 1;
     max-width: 100%;
     position: relative;
+    margin-left: -120px; /* Shift entire nav left to align with WINIONS */
 }
 
 .nav-left,
