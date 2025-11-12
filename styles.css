@@ -117,6 +117,7 @@ nav {
     display: flex;
     gap: 40px;
     list-style: none;
+    align-items: center; /* Vertically center all nav items */
 }
 
 .nav-links a {
@@ -195,10 +196,15 @@ nav {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left on mobile */
 }
 
 .mobile-nav-links li {
     margin: 30px 0;
+    display: flex;
+    align-items: center; /* Vertically center content */
 }
 
 .mobile-nav-links a {
