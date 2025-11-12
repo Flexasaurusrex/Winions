@@ -3,177 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winions Dice Roller - Roll for Chaos</title>
+    <title>Winions - A RascalX Art Collection</title>
+    <meta name="description" content="A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://winionsdice.vercel.app/">
-    <meta property="og:title" content="Winions Dice Roller - Roll for Chaos">
-    <meta property="og:description" content="Roll the D66 dice and claim your Winion NFT. Choose your school of mayhem and embrace the chaos.">
-    <meta property="og:image" content="https://winionsdice.vercel.app/social.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://winions.xyz/">
+    <meta property="og:title" content="Winions - A RascalX Art Collection">
+    <meta property="og:description" content="A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.">
+    <meta property="og:image" content="https://winions.xyz/social.png">
     
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://winionsdice.vercel.app/">
-    <meta name="twitter:title" content="Winions Dice Roller - Roll for Chaos">
-    <meta name="twitter:description" content="Roll the D66 dice and claim your Winion NFT. Choose your school of mayhem and embrace the chaos.">
-    <meta name="twitter:image" content="https://winionsdice.vercel.app/social.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://winions.xyz/">
+    <meta property="twitter:title" content="Winions - A RascalX Art Collection">
+    <meta property="twitter:description" content="A celebration of Glitch, mischief, and chaos in 666 forms. Created by @rvscvnx and released with friends.">
+    <meta property="twitter:image" content="https://winions.xyz/social.png">
     
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Ethers.js v6 -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
-    
-    <!-- Configuration -->
-    <script src="config.js"></script>
-    
-    <!-- Contract ABI -->
-    <script src="contract-abi.js"></script>
 </head>
 <body>
-    <!-- Wallet Connection Screen -->
-    <div class="container" id="walletScreen">
-        <h1>WINIONS DICE ROLLER</h1>
-        <p class="subtitle">Connect your wallet to begin</p>
-        
-        <div class="gate-content">
-            <img src="havoc.gif" alt="Winion" class="gate-winion-gif" onerror="this.style.display='none'">
-            
-            <p class="gate-description">
-                Connect your wallet to check your rolls and start rolling for Winions.
-            </p>
-            
-            <div id="walletStatus" class="wallet-status" style="display: none;"></div>
-            
-            <button class="connect-button" id="connectButton">
-                CONNECT WALLET
-            </button>
-            
-            <!-- 🔥 FOMO COUNTER -->
-            <div class="fomo-counter" id="fomoCounter">
-                <div class="fomo-text">LOADING...</div>
+    <!-- Hamburger Menu -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-close" id="closeMenu">&times;</div>
+        <ul class="mobile-nav-links">
+            <li><a href="#trailer">Trailer</a></li>
+            <li><a href="#rarity">Rarity</a></li>
+            <li><a href="#bounties">Bounties</a></li>
+            <li><a href="https://winionsdice.vercel.app/countdown-launch.html" target="_blank" class="dice-roll-link">🎲 DICE ROLL 🎲</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="https://opensea.io/collection/winions" target="_blank">Opensea</a></li>
+            <li><a href="https://winionmemes.vercel.app/" target="_blank">Meme Generator</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSe1N6Gc9K7qAjuZ0xuid3ScP47iGXLF6ue8N3dezJuc51vsFw/viewform?usp=send_form" target="_blank">Bounty Form</a></li>
+        </ul>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="favicon.ico" alt="Winions Logo">
             </div>
-            
-            <div id="verificationStatus" class="verification-status"></div>
+            <span>Winions</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#trailer">Trailer</a></li>
+            <li><a href="#rarity">Rarity</a></li>
+            <li><a href="#bounties">Bounties</a></li>
+            <li><a href="https://winionsdice.vercel.app/countdown-launch.html" target="_blank" class="dice-roll-link">🎲 DICE ROLL 🎲</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="https://opensea.io/collection/winions" target="_blank">Opensea</a></li>
+            <li><a href="https://winionmemes.vercel.app/" target="_blank">Meme Generator</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSe1N6Gc9K7qAjuZ0xuid3ScP47iGXLF6ue8N3dezJuc51vsFw/viewform?usp=send_form" target="_blank">Bounty Form</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="title-section">
+            <h1>WINIONS</h1>
+            <p class="subtitle">A RascalX Art Collection</p>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="artCanvas"></canvas>
         </div>
     </div>
 
-    <!-- Rolls Status Screen -->
-    <div class="container" id="rollsScreen" style="display: none;">
-        <h1>YOUR ROLLS</h1>
-        <p class="subtitle">Check your available rolls</p>
-        
-        <div class="rolls-display">
-            <div class="roll-type">
-                <h3>🎁 FREE ROLLS</h3>
-                <div class="roll-count" id="freeRollsCount">0</div>
-                <p>Whitelist rolls</p>
+    <!-- Trailer Section -->
+    <section id="trailer" class="content-section">
+        <div class="section-content">
+            <h2>TRAILER</h2>
+            <div class="video-container">
+                <video controls>
+                    <source src="Comp 1_10-moshed-10-23-21-28-49-484_1.MP4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mint Section -->
+    <section id="mint" class="content-section">
+        <div class="section-content">
+            <h2>MINT DETAILS</h2>
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Artist</span>
+                    <span class="detail-value">@rvscvnx</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Blockchain</span>
+                    <span class="detail-value">Ethereum</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Supply</span>
+                    <span class="detail-value">666</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Reveal</span>
+                    <span class="detail-value">Instant reveal after mint</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Royalties</span>
+                    <span class="detail-value">6.66%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mint Date</span>
+                    <span class="detail-value">The week of Halloween</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Contract</span>
+                    <span class="detail-value">0x4AD94fb8b87A1aD3F7D52A406c64B56dB3Af0733</span>
+                </div>
+            </div>
+
+            <h3>PHASES</h3>
+            <div class="phases">
+                <div class="phase-wrapper">
+                    <div class="phase-card">
+                        <h4>Phase 1 — FRENZY</h4>
+                        <p>69 FCFS free for all Rascalx holders.</p>
+                    </div>
+                    <div class="sold-out-banner">SOLD OUT</div>
+                </div>
+                <div class="phase-wrapper">
+                    <div class="phase-card">
+                        <h4>Phase 2 — FREE FOR ALL</h4>
+                        <p>Free 300 supply to AL. Two per wallet max.</p>
+                    </div>
+                    <div class="sold-out-banner">SOLD OUT</div>
+                </div>
+                <div class="phase-card">
+                    <h4>Phase 3 — FOMO</h4>
+                    <p>The final 297 at 0.0222Ξ. Open to the public. 10 per wallet max.</p>
+                </div>
             </div>
             
-            <div class="roll-type">
-                <h3>💎 PURCHASED ROLLS</h3>
-                <div class="roll-count" id="paidRollsCount">0</div>
-                <p>Owned rolls</p>
+            <div class="otc-note">
+                <p>FOMO phase will be open to bulk OTC offers during phase 2. Send .111 eth to winions.eth and you will receive 5 NFTs. If you send funds and it's sold out you will be refunded.</p>
             </div>
         </div>
-        
-        <div class="purchase-section">
-            <h3>PURCHASE MORE ROLLS</h3>
-            <div class="purchase-options">
-                <button class="purchase-button" onclick="purchaseRolls(1)">
-                    <span class="package">1 ROLL</span>
-                    <span class="price" id="price1">0.0111 ETH</span>
-                </button>
-                <button class="purchase-button popular" onclick="purchaseRolls(3)">
-                    <span class="badge">POPULAR</span>
-                    <span class="package">3 ROLLS</span>
-                    <span class="price" id="price3">0.03 ETH</span>
-                    <span class="savings">SAVE 10%</span>
-                </button>
-                <button class="purchase-button" onclick="purchaseRolls(5)">
-                    <span class="package">5 ROLLS</span>
-                    <span class="price" id="price5">0.045 ETH</span>
-                    <span class="savings">SAVE 19%</span>
-                </button>
-            </div>
-        </div>
-        
-        <button class="action-button" id="continueToSchool">
-            CONTINUE TO ROLL →
-        </button>
-    </div>
+    </section>
 
-    <!-- School Selection Screen -->
-    <div class="container" id="schoolScreen" style="display: none;">
-        <h1>ROLL TO MINT NEW WINION</h1>
-        <p class="subtitle">Roll one of the D66 dice below</p>
-        
-        <p class="description">
-            the winions value three different schools of mayhem which determine the life schemes of each winion. almost like choosing a religion. decide for this winion you are summoning to which school they will belong. choose wisely.
+    <!-- Rarity Section -->
+    <section id="rarity" class="content-section">
+        <div class="section-content">
+            <h2>RARITY STRUCTURE</h2>
+            <p class="section-intro">There are 13 Houses within the 666 Winions. Each House represents a distinct tone — from quiet forms to full digital chaos. Most Winions belong to the Common Houses, while others emerge from rarer realms.</p>
+            
+            <div class="carousel-container">
+                <button class="carousel-btn prev" id="prevBtn">‹</button>
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Common Houses -->
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="havoc.gif" alt="House of Havoc" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Havoc</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">33.3%</p>
+                        </div>
+                        <div class="house-card common">
+                            <div class="house-image-placeholder">
+                                <img src="misfit.gif" alt="House of Misfits" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Misfits</h4>
+                            <p class="rarity-badge common-badge">COMMON</p>
+                            <p class="rarity-percent">16.7%</p>
+                        </div>
+                        
+                        <!-- Uncommon Houses -->
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="frog.gif" alt="House of Frog" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Frog</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">9.9%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="theory.gif" alt="House of Theory" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Theory</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">8.3%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="clay.gif" alt="House of Clay" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Clay</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">5%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="stencil.gif" alt="House of Stencil" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Stencil</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">5%</p>
+                        </div>
+                        <div class="house-card uncommon">
+                            <div class="house-image-placeholder">
+                                <img src="spectrum.gif" alt="House of Spectrum" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Spectrum</h4>
+                            <p class="rarity-badge uncommon-badge">UNCOMMON</p>
+                            <p class="rarity-percent">6.6%</p>
+                        </div>
+                        
+                        <!-- Rare Houses -->
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="royal.gif" alt="House of Royal" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Royal</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="shadow.gif" alt="House of Shadows" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Shadows</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card rare">
+                            <div class="house-image-placeholder">
+                                <img src="hellish.gif" alt="House of Hellish" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Hellish</h4>
+                            <p class="rarity-badge rare-badge">RARE</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        
+                        <!-- Ultra Rare Houses -->
+                        <div class="house-card ultra-rare">
+                            <div class="house-image-placeholder">
+                                <img src="hologram.gif" alt="House of Hologram" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Hologram</h4>
+                            <p class="rarity-badge ultra-rare-badge">ULTRA RARE</p>
+                            <p class="rarity-percent">3.3%</p>
+                        </div>
+                        <div class="house-card ultra-rare">
+                            <div class="house-image-placeholder">
+                                <img src="gold.gif" alt="House of Gold" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Gold</h4>
+                            <p class="rarity-badge ultra-rare-badge">ULTRA RARE</p>
+                            <p class="rarity-percent">1.7%</p>
+                        </div>
+                        
+                        <!-- Mythic House -->
+                        <div class="house-card mythic">
+                            <div class="house-image-placeholder">
+                                <img src="winionswhat.gif" alt="House of Death" class="house-image" loading="eager">
+                            </div>
+                            <h4>House of Death</h4>
+                            <p class="rarity-badge mythic-badge">MYTHIC</p>
+                            <p class="rarity-percent">0.5%</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn next" id="nextBtn">›</button>
+            </div>
+
+            <div class="generals-info">
+                <h3>WHAT ARE GENERALS?</h3>
+                <p>Each House (minus the House of Death) is led by a single General Winion (1/1). Generals are not part of the mint, they can only be earned through the Winions Bounty System.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bounties Section -->
+    <section id="bounties" class="content-section">
+        <div class="section-content">
+            <h2>BOUNTIES</h2>
+            <p class="section-intro">Bounties are a post-mint checklist designed to reward collectors who play and dive deeper into the collection. Think of it as Bingo, assemble specific sets, yet to be revealed, to claim rewards.</p>
+            
+            <div class="bounty-form-box">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1N6Gc9K7qAjuZ0xuid3ScP47iGXLF6ue8N3dezJuc51vsFw/viewform?usp=send_form" target="_blank" class="bounty-form-link">
+                    CLICK HERE TO SUBMIT BOUNTY
+                </a>
+            </div>
+            
+            <div class="bounty-example">
+                <h4>Example:</h4>
+                <p>First to collect three from the House of Gold.</p>
+                <p>When a bounty is achieved, collectors can submit a claim. The first verified claim wins that House's General (1/1). Each General will be airdropped to the rightful winner.</p>
+            </div>
+
+            <h3>WHY THE BOUNTY SYSTEM?</h3>
+            <p>Winions like to travel in packs. It's a fair, playful system where effort and curiosity replace pure luck.</p>
+
+            <h3>LICENSING & RIGHTS</h3>
+            <p>Winions come with full personal and commercial rights for holders. You may use your Winion for merch, media, or creative projects. Each piece is stored on-chain with permanent metadata.</p>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="content-section">
+        <div class="section-content">
+            <h2>THE TEAM</h2>
+            <p><strong>Artist:</strong> <a href="https://x.com/rvscvnx" target="_blank" class="inline-link">@rvscvnx</a></p>
+            <p><strong>Produced by:</strong> CØNSPIRATØRS</p>
+
+            <h3 style="margin-top: 40px;">OFFICIAL LINKS</h3>
+            <div class="links-grid">
+                <a href="https://winions.xyz" target="_blank" class="link-item">Website: winions.xyz</a>
+                <a href="https://opensea.io/collection/winions" target="_blank" class="link-item">Opensea: winions</a>
+                <a href="https://x.com/Winions_nft" target="_blank" class="link-item">Twitter: @Winions_nft</a>
+                <a href="https://x.com/rvscvnx" target="_blank" class="link-item">Artist: @rvscvnx</a>
+                <a href="https://etherscan.io/address/0x4AD94fb8b87A1aD3F7D52A406c64B56dB3Af0733" target="_blank" class="link-item">Contract: 0x4AD9...0733</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1N6Gc9K7qAjuZ0xuid3ScP47iGXLF6ue8N3dezJuc51vsFw/viewform?usp=send_form" target="_blank" class="link-item">Bounty Form</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>Site made with love by 
+            <a href="https://x.com/rexflexasaurus" target="_blank" class="footer-link">
+                <img src="flexy.png" alt="Flex" class="footer-icon" onerror="this.style.display='none'">Flex
+            </a>
         </p>
-
-        <div class="dice-row">
-            <img src="ORANGEDIE.png" alt="Anarchy Dice" class="dice-image">
-            <img src="BLUEDIE.png" alt="Mischief Dice" class="dice-image">
-            <img src="GREENDIE.png" alt="Luck Dice" class="dice-image">
-        </div>
-
-        <div class="button-row">
-            <button class="school-button" data-school="anarchy">
-                <img src="ANARCHY.png" alt="Anarchy Icon" class="button-icon">
-                <span>ANARCHY</span>
-            </button>
-            <button class="school-button" data-school="mischief">
-                <img src="MISCHIEF.png" alt="Mischief Icon" class="button-icon">
-                <span>MISCHIEF</span>
-            </button>
-            <button class="school-button" data-school="luck">
-                <img src="LUCK.png" alt="Luck Icon" class="button-icon">
-                <span>LUCK</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Dice Rolling Screen -->
-    <div class="container" id="diceScreen" style="display: none;">
-        <h1>ROLL FOR YOUR HOUSE</h1>
-        <p class="subtitle school-chosen">School of <span id="chosenSchool"></span></p>
-
-        <div class="dice-display" id="diceDisplay"></div>
-
-        <div class="controls">
-            <button class="roll-button" id="rollButton">🎲 ROLL THE DICE 🎲</button>
-        </div>
-
-        <div class="dice-total">
-            <span class="total-label">YOUR TOTAL</span>
-            <span class="total-value" id="totalValue">0</span>
-            <span class="total-range">Range: 66-396</span>
-        </div>
-        
-        <div id="houseResult" class="house-result-display" style="display: none;">
-            <h3>YOU ROLLED INTO:</h3>
-            <div class="house-name-large" id="rolledHouseName"></div>
-            <button class="claim-button" id="claimButton">CLAIM YOUR WINION</button>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal" id="successModal" style="display: none;">
-        <div class="modal-content">
-            <h2>🎉 WINION CLAIMED! 🎉</h2>
-            <img id="claimedNFTImage" src="" alt="Your Winion" class="claimed-nft-image">
-            <h3 id="claimedHouseName"></h3>
-            <p class="claimed-details">
-                Token ID: <strong id="claimedTokenId"></strong><br>
-                Roll Total: <strong id="claimedRollTotal"></strong>
-            </p>
-            <a id="etherscanLink" href="" target="_blank" class="etherscan-link">View on Etherscan →</a>
-            <button class="close-button" onclick="resetToRollsScreen()">ROLL AGAIN</button>
-        </div>
-    </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
