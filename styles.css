@@ -919,3 +919,147 @@ canvas:active {
         font-size: 24px;
     }
 }
+
+/* ===========================================
+   DICE ROLL LINK - GLOWING PULSATING EFFECTS
+   =========================================== */
+
+/* Core Dice Roll Link Styling */
+.dice-roll-link {
+    position: relative;
+    display: inline-block;
+    padding: 12px 24px !important;
+    background: rgba(255, 26, 26, 0.15) !important;
+    border: 2px solid #ff1a1a !important;
+    border-radius: 8px;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    letter-spacing: 3px !important;
+    text-shadow: 
+        0 0 10px rgba(255, 26, 26, 0.8),
+        0 0 20px rgba(255, 26, 26, 0.6),
+        0 0 30px rgba(255, 26, 26, 0.4),
+        0 0 40px rgba(255, 26, 26, 0.2);
+    box-shadow: 
+        0 0 20px rgba(255, 26, 26, 0.6),
+        0 0 40px rgba(255, 26, 26, 0.4),
+        inset 0 0 20px rgba(255, 26, 26, 0.2);
+    animation: 
+        diceGlow 2s ease-in-out infinite,
+        dicePulse 2s ease-in-out infinite,
+        diceBreath 3s ease-in-out infinite;
+    transition: all 0.3s ease !important;
+}
+
+/* Pulsating Glow Animation */
+@keyframes diceGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(255, 26, 26, 0.6),
+            0 0 40px rgba(255, 26, 26, 0.4),
+            0 0 60px rgba(255, 26, 26, 0.2),
+            inset 0 0 20px rgba(255, 26, 26, 0.2);
+        border-color: #ff1a1a;
+    }
+    50% {
+        box-shadow: 
+            0 0 30px rgba(255, 26, 26, 0.9),
+            0 0 60px rgba(255, 26, 26, 0.7),
+            0 0 90px rgba(255, 26, 26, 0.5),
+            inset 0 0 30px rgba(255, 26, 26, 0.3);
+        border-color: #ff4444;
+    }
+}
+
+/* Text Pulsation */
+@keyframes dicePulse {
+    0%, 100% {
+        text-shadow: 
+            0 0 10px rgba(255, 26, 26, 0.8),
+            0 0 20px rgba(255, 26, 26, 0.6),
+            0 0 30px rgba(255, 26, 26, 0.4);
+    }
+    50% {
+        text-shadow: 
+            0 0 15px rgba(255, 26, 26, 1),
+            0 0 30px rgba(255, 26, 26, 0.8),
+            0 0 45px rgba(255, 26, 26, 0.6),
+            0 0 60px rgba(255, 26, 26, 0.4);
+    }
+}
+
+/* Breathing Scale Effect */
+@keyframes diceBreath {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Hover Effects - EVEN MORE INTENSE */
+.dice-roll-link:hover {
+    background: rgba(255, 26, 26, 0.3) !important;
+    transform: scale(1.15) !important;
+    box-shadow: 
+        0 0 40px rgba(255, 26, 26, 1),
+        0 0 80px rgba(255, 26, 26, 0.8),
+        0 0 120px rgba(255, 26, 26, 0.6),
+        inset 0 0 40px rgba(255, 26, 26, 0.4) !important;
+    text-shadow: 
+        0 0 20px rgba(255, 26, 26, 1),
+        0 0 40px rgba(255, 26, 26, 0.8),
+        0 0 60px rgba(255, 26, 26, 0.6) !important;
+    animation: 
+        diceGlowHover 0.5s ease-in-out infinite,
+        diceShake 0.3s ease-in-out infinite !important;
+}
+
+/* Hover Glow Animation */
+@keyframes diceGlowHover {
+    0%, 100% {
+        box-shadow: 
+            0 0 40px rgba(255, 26, 26, 1),
+            0 0 80px rgba(255, 26, 26, 0.8),
+            0 0 120px rgba(255, 26, 26, 0.6),
+            inset 0 0 40px rgba(255, 26, 26, 0.4);
+    }
+    50% {
+        box-shadow: 
+            0 0 50px rgba(255, 26, 26, 1),
+            0 0 100px rgba(255, 26, 26, 0.9),
+            0 0 150px rgba(255, 26, 26, 0.7),
+            inset 0 0 50px rgba(255, 26, 26, 0.5);
+    }
+}
+
+/* Shake Effect on Hover */
+@keyframes diceShake {
+    0%, 100% {
+        transform: scale(1.15) translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: scale(1.15) translateX(-2px) rotate(-1deg);
+    }
+    75% {
+        transform: scale(1.15) translateX(2px) rotate(1deg);
+    }
+}
+
+/* Mobile Adjustments for Dice Roll Link */
+@media (max-width: 768px) {
+    .dice-roll-link {
+        padding: 10px 20px !important;
+        font-size: 14px !important;
+        letter-spacing: 2px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .dice-roll-link {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+        letter-spacing: 1.5px !important;
+    }
+}
